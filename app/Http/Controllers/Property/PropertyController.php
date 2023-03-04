@@ -1,0 +1,160 @@
+<?php
+
+namespace App\Http\Controllers\Property;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Property\UpdatePropertystep1Request;
+use App\Models\Feature;
+use App\Models\Property;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+
+class PropertyController extends Controller
+{
+    public function first_step()
+    {
+        if(request()->segment(1) == 'en') {
+        $lang_code = 'en_US';
+        }
+        elseif (request()->segment(1) == 'es') {
+            $lang_code = 'es_ES';
+        }
+        elseif(request()->segment(1) == 'fr') {
+                    $lang_code = 'fr_FR';
+                }
+        elseif(request()->segment(1) == 'it') {
+            $lang_code = 'it_IT';
+        }
+        $categories = DB::table('re_categories_translations')->where('lang_code',$lang_code )->get();
+        $countries = DB::table('countries')->get();
+        $states = DB::table('states')->get();
+        $cities = DB::table('cities')->get();
+
+        return view('property.first-step',[ 'categories' => $categories,
+            'countries' => $countries, 'states' => $states, 'cities' => $cities]);
+    }
+
+    public
+function store(Request $request)
+{
+
+    DB::table('re_properties')->insert([
+        'type' => $request->input('type'),
+        'category_id' => $request->input('category_id'),
+        'country_id' => $request->input('country_id'),
+        'state_id' => $request->input('state_id'),
+        'location' => $request->input('location'),
+    ]);
+
+    return redirect()->route('second_step1');
+}
+
+public
+function show()
+{
+    $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+
+    return view('property.second-step', ['property' => $property->id]);
+}
+
+public
+function update_property_step1(UpdatePropertystep1Request $request, $property)
+{
+    $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+    DB::table('re_properties')->where('id', $property->id)
+        ->update([
+            'name' => $request->name ?? $property->name,
+            'description' => $request->description ?? $property->description,
+            'content' => $request->input('content') ?? $property->content,
+            'square' => $request->square ?? $property->square,
+            'square_construction' => $request->square_construction ?? $property->square_construction,
+            'number_floor' => $request->number_floor ?? $property->number_floor,
+            'number_bedroom' => $request->number_bedroom ?? $property->number_bedroom,
+            'number_bathroom' => $request->number_bathroom ?? $property->number_bathroom,
+            'number_wc' => $request->number_wc ?? $property->number_wc,
+            'construction_year' => $request->construction_year ?? $property->construction_year,
+            'last_reconstruction' => $request->last_reconstruction ?? $property->last_reconstruction,
+            'last_renovation' => $request->last_renovation ?? $property->last_renovation,
+            'available_date' => $request->available_date ?? $property->available_date,
+            'price' => $request->price ?? $property->price,
+            'currency_id' => $request->currency_id ?? $property->currency_id,
+            'additional_costs' => $request->additional_costs ?? $property->additional_costs,
+            'net_rent' => $request->net_rent ?? $property->net_rent,
+        ]);
+
+    return redirect()->route('step2', ['property' => $property->id]);
+}
+
+public
+function step2($property)
+{
+    if(request()->segment(1) == 'en') {
+        $lang_code = 'en_US';
+    }
+    elseif (request()->segment(1) == 'es') {
+        $lang_code = 'es_ES';
+    }
+    elseif(request()->segment(1) == 'fr') {
+        $lang_code = 'fr_FR';
+    }
+    elseif(request()->segment(1) == 'it') {
+        $lang_code = 'it_IT';
+    }
+
+    $features = DB::table('re_features_translations')->where('lang_code', $lang_code)->get();
+
+
+    $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+    $all = DB::table('new')->get();
+    return view('property.third-step', ['property' => $property->id, 'all' => $all,'features' => $features]);
+}
+
+public
+function save_qty(Request $request)
+{
+    $last = DB::table('new')->orderBy('id', 'DESC')->first();
+
+    DB::table('new')->insert([
+        'id' => $last->id + 1,
+        'name' => $request->input('name'),
+        'qty' => $request->input('qty'),
+    ]);
+    return redirect()->back();
+}
+
+public
+function destroy($id)
+{
+    dd($id);
+    $data = DB::table('new')->where('id', $id)->first();
+    dd($data);
+//        DB::delete('delete from new where id = ?',[$id]);
+
+    return redirect()->back();
+}
+
+    public function fetchState(Request $request)
+    {
+        $data['states'] = DB::table('states')->where("country_id", $request->country_id)->get(["name", "id"]);
+        return response()->json($data);
+    }
+
+    public function fetchCity(Request $request)
+    {
+        $data['cities'] = DB::table('cities')->where("state_id",$request->state_id)->get(["name", "id"]);
+        return response()->json($data);
+    }
+    public function update_property_step2(Request $request,$property)
+    {
+        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+
+//        $property->features()->sync($request->input('feature_id'));
+//dd($property);
+        $property->features()->sync($request->input('features'));
+
+dd('here');
+        return view('details3', ['property' => $property]);
+
+    }
+}
