@@ -63,13 +63,33 @@ Route::prefix('{locale}')
             [PropertyController::class, 'step2'])
             ->name('step2');
 
-        Route::post('save/qty',
-            [PropertyController::class,
-                'save_qty'])->middleware(['auth'])->name('save.qty');
+//        Route::post('save/qty',
+//            [PropertyController::class,
+//                'save_qty'])->middleware(['auth'])->name('save.qty');
 
-        Route::get('update/properties/step1/notstarted/delete/{id}',[PropertyController::class, 'destroy'])->name('delete');
+        Route::get('update/properties/step1/notstarted/delete/{id}', [PropertyController::class, 'destroy'])->name('delete');
+
         require __DIR__ . '/auth.php';
+
         Route::post('update/properties/step2/{property}', [PropertyController::class, 'update_property_step2'])->name('update.property.step2');
+        Route::post('store/facility', [PropertyController::class, 'store_facility'])->name('store.facility');
+
+        Route::get('update/properties/step3/{property}',
+            [PropertyController::class, 'step3'])
+            ->name('step3');
+        Route::post('update/properties/step3/{property}', [PropertyController::class, 'update_property_step3'])->name('update.property.step3');
+
+        Route::get('update/properties/step4/{property}',
+            [PropertyController::class, 'step4'])
+            ->name('step4');
+        Route::post('update/properties/step4/{property}', [PropertyController::class, 'update_property_step4'])->name('update.property.step4');
+
+        Route::get('update/properties/step5/{property}/{package}', [PropertyController::class, 'show_package'])
+            ->name('show.package');
+
+        Route::get('publish/properties/{property}',
+            [PropertyController::class, 'publish'])
+            ->name('publish');
     });
 
 Route::post('api/fetch-states', [PropertyController::class, 'fetchState']);
