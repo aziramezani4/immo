@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Property\PropertyController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,7 @@ Route::prefix('{locale}')
         });
 
         Route::get('/dashboard', function () {
+
             return view('dashboard');
         })->middleware(['auth'])->name('dashboard');
 
