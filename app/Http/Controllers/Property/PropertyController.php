@@ -5,18 +5,43 @@ namespace App\Http\Controllers\Property;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Property\UpdatePropertystep1Request;
 use App\Models\Property;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Validation\Rules;
 
 class PropertyController extends Controller
 {
     public function home()
     {
-        return view('property.home');
+        $languages = DB::table('languages')->get();
+        return view('home',['languages' => $languages]);
     }
 
-    public function first_step()
+//    public function first_step()
+//    {
+//        if (request()->segment(1) == 'en') {
+//            $lang_code = 'en_US';
+//        } elseif (request()->segment(1) == 'es') {
+//            $lang_code = 'es_ES';
+//        } elseif (request()->segment(1) == 'fr') {
+//            $lang_code = 'fr_FR';
+//        } elseif (request()->segment(1) == 'it') {
+//            $lang_code = 'it_IT';
+//        } elseif (request()->segment(1) == 'de') {
+//            $lang_code = 'de_DE';
+//        }
+//
+//        $countries = DB::table('countries')->get();
+//        $states = DB::table('states')->get();
+//        $cities = DB::table('cities')->get();
+//        $categoriess = DB::table('re_categories')->get();
+//        $categories = DB::table('re_categories_translations')->where('lang_code', $lang_code)->get();
+//
+//        return view('property.first-step', ['categories' => $categories,'categoriess' => $categoriess,
+//            'countries' => $countries, 'states' => $states, 'cities' => $cities]);
+//    }
+    public function create_peoperty()
     {
         if (request()->segment(1) == 'en') {
             $lang_code = 'en_US';
@@ -35,11 +60,11 @@ class PropertyController extends Controller
         $cities = DB::table('cities')->get();
         $categoriess = DB::table('re_categories')->get();
         $categories = DB::table('re_categories_translations')->where('lang_code', $lang_code)->get();
+        $languages = DB::table('languages')->get();
 
-        return view('property.first-step', ['categories' => $categories,'categoriess' => $categoriess,
-            'countries' => $countries, 'states' => $states, 'cities' => $cities]);
+        return view('createProperties', ['categories' => $categories,'categoriess' => $categoriess,
+            'countries' => $countries, 'states' => $states, 'cities' => $cities,'languages' => $languages]);
     }
-
 
     public function store(Request $request)
     {
@@ -58,8 +83,9 @@ class PropertyController extends Controller
     public function show()
     {
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+        $languages = DB::table('languages')->get();
 
-        return view('property.second-step', ['property' => $property->id]);
+        return view('details', ['property' => $property->id,'languages' => $languages]);
     }
 
     public function update_property_step1(UpdatePropertystep1Request $request, $property)
@@ -103,23 +129,16 @@ class PropertyController extends Controller
 
         $features = DB::table('re_features_translations')->where('lang_code', $lang_code)->get();
         $facilities = DB::table('re_facilities_translations')->where('lang_code', $lang_code)->get();
+        $languages = DB::table('languages')->get();
 
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
-        $all = DB::table('new')->get();
-        return view('property.third-step', ['property' => $property->id, 'all' => $all, 'features' => $features, 'facilities' => $facilities]);
+
+
+        return view('details2', ['property' => $property->id,
+            'features' => $features, 'facilities' => $facilities,
+            'languages' => $languages]);
     }
 
-//    public function save_qty(Request $request)
-//    {
-//        $last = DB::table('new')->orderBy('id', 'DESC')->first();
-//
-//        DB::table('new')->insert([
-//            'id' => $last->id + 1,
-//            'name' => $request->input('name'),
-//            'qty' => $request->input('qty'),
-//        ]);
-//        return redirect()->back();
-//    }
 
     public function destroy($id)
     {
@@ -147,9 +166,13 @@ class PropertyController extends Controller
     {
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
-//        $property->features()->sync($request->input('feature_id'));
-//dd($property);
-//        $property->features()->sync($request->features);
+        foreach(request()->input('features') as $index) {
+           $feature = DB::table('re_features_translations')->where('name',$index)->first();
+            DB::table('re_property_features')->insert([
+                'property_id' => $property->id,
+                'feature_id' => $feature->re_features_id,
+            ]);
+        }
 
         return redirect()->back();
 
@@ -178,10 +201,11 @@ class PropertyController extends Controller
     public function update_property_step3(Request $request, $property)
     {
 
-//        $request->validate([
-//            'contact_name' => ['required', 'string'],
-//            'contact_phone_number' => ['required', 'string'],
-//        ]);
+        $request->validate([
+            'contact_name' => ['required', 'string'],
+            'contact_phone_number' => ['required', 'string'],
+        ]);
+
         DB::table('re_properties')->update([
             'contact_name' => $request->input('contact_name'),
             'contact_phone_number' => $request->input('contact_phone_number'),
@@ -191,8 +215,10 @@ class PropertyController extends Controller
 
         $property = Property::orderBy('id', 'DESC')->first();
         $packages = DB::table('re_packages')->get();
+        $languages = DB::table('languages')->get();
 
-        return view('property.fifth-step', ['property' => $property->id, 'packages' => $packages]);
+        return view('details4', ['property' => $property->id, 'packages' => $packages
+            , 'languages' => $languages]);
 
 //        return view('details3', ['property'=>$property]);
 
@@ -214,25 +240,58 @@ class PropertyController extends Controller
     public function show_package($property, $package)
     {
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+        $languages = DB::table('languages')->get();
 
         $package = DB::table('re_packages')->where('id',request()->segment(6))->first();
         DB::table('re_properties')->where('id',request()->segment(5))->update([
             'package' => request()->segment(6),
         ]);
 
-        return view('property.sixth',['package'=>$package,'property'=>$property->id]);
+        return view('details5',['package'=>$package,'property'=>$property->id, 'languages' => $languages]);
     }
 
     public function publish($property)
     {
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+        $languages = DB::table('languages')->get();
 
-        return view('property.seventh', ['property' => $property->id]);
+        return view('details6', ['property' => $property->id, 'languages' => $languages]);
     }
-    public function properties($property)
+    public function properties()
     {
-        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+        $languages = DB::table('languages')->get();
 
-        return view('property.eigth');
+        return view('myProperties', ['languages' => $languages]);
+    }
+
+    public function update_profile(Request $request)
+    {
+
+         $account = DB::table('re_accounts')->where('id', auth()->user()->id)->first();
+        DB::table('re_accounts')->where('id', auth()->user()->id)->update([
+                'first_name' => $request->first_name ?? $account->first_name,
+                'last_name' => $request->last_name ?? $account->last_name,
+                'username' => $request->username ?? $account->username,
+                'phone' => $request->phone ?? $account->phone,
+                'email' => $request->email ?? $account->email,
+//                'company' => $request->company ?? $account->company,
+                'dob' => $request->dob ?? $account->dob,
+            ]);
+
+        return redirect()->back();
+    }
+
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $account = DB::table('re_accounts')->where('id', auth()->user()->id)->first();
+        DB::table('re_accounts')->where('id', auth()->user()->id)->update([
+            'password' => bcrypt($request['password']),
+        ]);
+
+        return redirect()->back();
     }
 }
