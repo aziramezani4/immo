@@ -47,9 +47,9 @@
                             type="submit"
                             class="btn btn btn-primary btn-lg btn-button"
                         >
-{{--                            <a href="{{route('step6',[$property])}}" >--}}
+                            <a href="{{route('publish',[$property])}}" >
                                 Publish
-{{--                            </a>--}}
+                            </a>
                         </button>
                     </div>
                 </div>

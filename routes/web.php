@@ -44,6 +44,9 @@ Route::prefix('{locale}')
             return view('dashboard');
         })->middleware(['auth'])->name('dashboard');
 
+        Route::get('/home', [PropertyController::class, 'home'])
+            ->middleware(['auth'])->name('home');
+
         Route::get('first/step', [PropertyController::class, 'first_step'])
             ->middleware(['auth'])->name('first_step');
 
@@ -90,6 +93,10 @@ Route::prefix('{locale}')
         Route::get('publish/properties/{property}',
             [PropertyController::class, 'publish'])
             ->name('publish');
+
+        Route::get('my/properties/{property}',
+            [PropertyController::class, 'properties'])
+            ->name('my.properties');
     });
 
 Route::post('api/fetch-states', [PropertyController::class, 'fetchState']);

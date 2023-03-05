@@ -30,8 +30,11 @@
                         @foreach($categories as $category)
                             <option value={{$category -> re_categories_id}} >{{$category -> name}} </option>
                         @endforeach
-                    @else
-                        <option value="0"></option>
+                    @endif
+                    @if($categoriess)
+                        @foreach($categoriess as $category)
+                            <option value={{$category -> id}} >{{$category -> name}} </option>
+                        @endforeach
                     @endif
                 </select>
             </div>

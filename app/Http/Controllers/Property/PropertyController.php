@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class PropertyController extends Controller
 {
+    public function home()
+    {
+        return view('property.home');
+    }
+
     public function first_step()
     {
         if (request()->segment(1) == 'en') {
@@ -21,18 +26,22 @@ class PropertyController extends Controller
             $lang_code = 'fr_FR';
         } elseif (request()->segment(1) == 'it') {
             $lang_code = 'it_IT';
+        } elseif (request()->segment(1) == 'de') {
+            $lang_code = 'de_DE';
         }
-        $categories = DB::table('re_categories_translations')->where('lang_code', $lang_code)->get();
+
         $countries = DB::table('countries')->get();
         $states = DB::table('states')->get();
         $cities = DB::table('cities')->get();
+        $categoriess = DB::table('re_categories')->get();
+        $categories = DB::table('re_categories_translations')->where('lang_code', $lang_code)->get();
 
-        return view('property.first-step', ['categories' => $categories,
+        return view('property.first-step', ['categories' => $categories,'categoriess' => $categoriess,
             'countries' => $countries, 'states' => $states, 'cities' => $cities]);
     }
 
-    public
-    function store(Request $request)
+
+    public function store(Request $request)
     {
 
         DB::table('re_properties')->insert([
@@ -46,16 +55,14 @@ class PropertyController extends Controller
         return redirect()->route('second_step1');
     }
 
-    public
-    function show()
+    public function show()
     {
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
         return view('property.second-step', ['property' => $property->id]);
     }
 
-    public
-    function update_property_step1(UpdatePropertystep1Request $request, $property)
+    public function update_property_step1(UpdatePropertystep1Request $request, $property)
     {
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
         DB::table('re_properties')->where('id', $property->id)
@@ -82,8 +89,7 @@ class PropertyController extends Controller
         return redirect()->route('step2', ['property' => $property->id]);
     }
 
-    public
-    function step2($property)
+    public function step2($property)
     {
         if (request()->segment(1) == 'en') {
             $lang_code = 'en_US';
@@ -103,21 +109,19 @@ class PropertyController extends Controller
         return view('property.third-step', ['property' => $property->id, 'all' => $all, 'features' => $features, 'facilities' => $facilities]);
     }
 
-    public
-    function save_qty(Request $request)
-    {
-        $last = DB::table('new')->orderBy('id', 'DESC')->first();
+//    public function save_qty(Request $request)
+//    {
+//        $last = DB::table('new')->orderBy('id', 'DESC')->first();
+//
+//        DB::table('new')->insert([
+//            'id' => $last->id + 1,
+//            'name' => $request->input('name'),
+//            'qty' => $request->input('qty'),
+//        ]);
+//        return redirect()->back();
+//    }
 
-        DB::table('new')->insert([
-            'id' => $last->id + 1,
-            'name' => $request->input('name'),
-            'qty' => $request->input('qty'),
-        ]);
-        return redirect()->back();
-    }
-
-    public
-    function destroy($id)
+    public function destroy($id)
     {
         dd($id);
         $data = DB::table('new')->where('id', $id)->first();
@@ -209,17 +213,26 @@ class PropertyController extends Controller
 
     public function show_package($property, $package)
     {
+        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
         $package = DB::table('re_packages')->where('id',request()->segment(6))->first();
         DB::table('re_properties')->where('id',request()->segment(5))->update([
             'package' => request()->segment(6),
         ]);
 
-        return view('property.sixth',['package'=>$package]);
+        return view('property.sixth',['package'=>$package,'property'=>$property->id]);
     }
 
     public function publish($property)
     {
+        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
+        return view('property.seventh', ['property' => $property->id]);
+    }
+    public function properties($property)
+    {
+        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+
+        return view('property.eigth');
     }
 }
