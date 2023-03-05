@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\Property\PropertyController;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,21 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/google-login', [GoogleAuthController::class,'redirectToProvider']);
+Route::get('/callback', 'GoogleAuthController@handleProviderCallback');
+
+Route::get('/login/github', [AuthenticatedSessionController::class, 'github'])->name('login.github');
+Route::get('/callback/github', [AuthenticatedSessionController::class, 'callbackGithub'])->name('callback.github');
+
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+
+    $githubUser = Socialite::driver('github')->user();
+});
 
 Route::get('/', function () {
     return redirect(app()->getLocale());
