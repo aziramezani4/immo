@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 're_accounts',
     ],
 
     /*
@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 're_accounts',
         ],
     ],
 
@@ -69,6 +69,12 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        're_accounts' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\Account::class,
+        ],
+
+
     ],
 
     /*
@@ -97,6 +103,11 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        're_accounts' => [
+            'provider' => 're_accounts',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
     ],
 
     /*
@@ -111,5 +122,7 @@ return [
     */
 
     'password_timeout' => 10800,
+
+
 
 ];
