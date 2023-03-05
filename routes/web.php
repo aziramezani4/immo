@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\Property\PropertyController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -17,6 +18,14 @@ use Laravel\Socialite\Facades\Socialite;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/test', function () {
+    return view('property.test');
+})->name('test');
+
+
+Route::post('api/fetch-states', [PropertyController::class, 'fetchState']);
+Route::post('api/fetch-cities', [PropertyController::class, 'fetchCity']);
 
 Route::get('/google-login', [GoogleAuthController::class,'redirectToProvider']);
 Route::get('/callback', 'GoogleAuthController@handleProviderCallback');
@@ -39,8 +48,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return view('home');
+})->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -63,11 +72,32 @@ Route::prefix('{locale}')
             return view('dashboard');
         })->middleware(['auth'])->name('dashboard');
 
+        Route::get('/profile', function () {
+            $languages = DB::table('languages')->get();
+            return view('profile', ['languages' => $languages]);
+        })->middleware(['auth'])->name('profile');
+
+        Route::post('/profile',[PropertyController::class,'update_profile'])
+            ->middleware(['auth'])->name('update.profile');
+
+
+        Route::get('/password', function () {
+            $languages = DB::table('languages')->get();
+            return view('changePassword', ['languages' => $languages]);
+        })->middleware(['auth'])->name('password');
+
+        Route::post('/password',[PropertyController::class,'update_password'])
+            ->middleware(['auth'])->name('update.password');
+
+
         Route::get('/home', [PropertyController::class, 'home'])
             ->middleware(['auth'])->name('home');
 
-        Route::get('first/step', [PropertyController::class, 'first_step'])
-            ->middleware(['auth'])->name('first_step');
+//        Route::get('first/step', [PropertyController::class, 'first_step'])
+//            ->middleware(['auth'])->name('first_step');
+
+        Route::get('create/properties', [PropertyController::class, 'create_peoperty'])
+            ->middleware(['auth'])->name('create_peoperty');
 
         Route::post('second/step', [PropertyController::class, 'store'])
             ->middleware(['auth'])->name('second_step');
@@ -104,6 +134,7 @@ Route::prefix('{locale}')
         Route::get('update/properties/step4/{property}',
             [PropertyController::class, 'step4'])
             ->name('step4');
+
         Route::post('update/properties/step4/{property}', [PropertyController::class, 'update_property_step4'])->name('update.property.step4');
 
         Route::get('update/properties/step5/{property}/{package}', [PropertyController::class, 'show_package'])
@@ -116,6 +147,12 @@ Route::prefix('{locale}')
         Route::get('my/properties/{property}',
             [PropertyController::class, 'properties'])
             ->name('my.properties');
+
+        Route::get('/myProperties', function () {
+            $languages = DB::table('languages')->get();
+            return view('myProperties', ['languages' => $languages]);
+        })->middleware(['auth'])->name('myPropertiess');
+
     });
 
 Route::post('api/fetch-states', [PropertyController::class, 'fetchState']);
