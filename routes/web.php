@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DropzoneController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\Property\PropertyController;
@@ -18,6 +19,11 @@ use Laravel\Socialite\Facades\Socialite;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::controller(DropzoneController::class)->group(function(){
+    Route::get('dropzone', 'index');
+    Route::post('dropzone/store', 'store')->name('dropzone.store');
+});
 
 Route::get('/test', function () {
     return view('property.test');
@@ -43,6 +49,7 @@ Route::get('/auth/callback', function () {
 });
 
 Route::get('/', function () {
+//    return view('home');
     return redirect(app()->getLocale());
 //    return view('welcome');
 });

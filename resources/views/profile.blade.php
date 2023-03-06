@@ -30,7 +30,7 @@
                 <h4
                   class="d-flex justify-content-between align-items-center mb-3"
                 >
-                  <span>Settings</span>
+                  <span>{{__('settings')}}</span>
                   <span class="badge bg-primary rounded-pill"></span>
                 </h4>
                 <ul class="nav flex-column nav-pills">
@@ -55,7 +55,7 @@
                           class=""
                         ></path>
                       </svg>
-                      Profile
+                        {{__('profile')}}
                     </a>
                   </li>
                   <li class="nav-item">
@@ -76,7 +76,7 @@
                           class=""
                         ></path>
                       </svg>
-                      Password
+                        {{__('')}} Password
                     </a>
                   </li>
                 </ul>
@@ -123,7 +123,7 @@
                     <!---->
                   </div>
                   <div data-v-464842b4="" class="col-md-7 col-lg-8">
-                    <h4 data-v-464842b4="" class="mb-3">Your Info</h4>
+                    <h4 data-v-464842b4="" class="mb-3">{{__('your_info')}}</h4>
                       <form enctype="multipart/form-data" class="w-100" method="POST"
                             action="{{ route('update.profile') }}">
                           @csrf
@@ -146,7 +146,7 @@
                             data-v-464842b4=""
                             for="firstName"
                             class="form-label"
-                            >First Name</label
+                            >{{__('first_name')}}</label
                           >
                           <input
                             data-v-464842b4=""
@@ -165,7 +165,7 @@
                             data-v-464842b4=""
                             for="lastName"
                             class="form-label"
-                            >Last Name</label
+                            >{{__('last_name')}}</label
                           >
                           <input
                             data-v-464842b4=""
@@ -184,7 +184,7 @@
                             data-v-464842b4=""
                             for="username"
                             class="form-label"
-                            >Username</label
+                            >{{__('username')}}</label
                           >
                           <div
                             data-v-464842b4=""
@@ -210,7 +210,7 @@
                         </div>
                         <div data-v-464842b4="" class="col-12">
                           <label data-v-464842b4="" class="form-label"
-                            >Phone</label
+                            >{{__('phone')}}</label
                           >
                           <div
                             data-v-464842b4=""
@@ -252,7 +252,7 @@
                             data-v-464842b4=""
                             for="email"
                             class="form-label"
-                            >Email</label
+                            >{{__('email')}}</label
                           >
                           <div
                             data-v-464842b4=""
@@ -295,7 +295,7 @@
                             data-v-464842b4=""
                             for="address"
                             class="form-label"
-                            >Address</label
+                            >{{__('address')}}</label
                           >
                           <input
                             data-v-464842b4=""
@@ -310,7 +310,7 @@
                         </div>
                         <div data-v-464842b4="" class="col-md-12">
                           <label data-v-464842b4="" class="form-label"
-                            >Birthday</label
+                            >{{__('birthday')}}</label
                           >
                           <input
                             data-v-464842b4=""
@@ -324,18 +324,18 @@
                         </div>
                         <div data-v-464842b4="" class="col-md-12">
                           <label data-v-464842b4="" class="form-label"
-                            >Gender</label
+                            >{{__('gender')}}</label
                           >
                           <select
                             data-v-464842b4=""
                             class="form-select custom-select"
                             id="__BVID__99"
                           >
-                            <option value="">Please select an option</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="">{{__('please select an option')}}</option>
+                            <option value="male">{{__('male')}}</option>
+                            <option value="female">{{__('female')}}</option>
                             <option value="other">
-                              Other select an option
+                                {{__('other')}}
                             </option>
                           </select>
                           <!---->
@@ -349,7 +349,7 @@
                             type="submit"
                             class="btn w-100 btn btn-primary btn-lg btn-success"
                           >
-                            Update
+                              {{__('update')}}
                           </button>
                         </div>
                       </div>

@@ -31,7 +31,7 @@
                 <h4
                   class="d-flex justify-content-between align-items-center mb-3"
                 >
-                  <span>Settings</span>
+                  <span>{{__('settings')}}</span>
                   <span class="badge bg-primary rounded-pill"></span>
                 </h4>
                 <ul class="nav flex-column nav-pills">
@@ -53,7 +53,7 @@
                           class=""
                         ></path>
                       </svg>
-                      Profile
+                     {{__('profile')}}
                     </a>
                   </li>
                   <li class="nav-item">
@@ -77,14 +77,14 @@
                           class=""
                         ></path>
                       </svg>
-                      Password
+                        {{ __('password') }}
                     </a>
                   </li>
                 </ul>
               </div>
               <div class="col-md-7 col-lg-8">
                 <div>
-                  <h4 class="mb-3">Your Password</h4>
+                  <h4 class="mb-3">{{ __('your_password') }}</h4>
                   <form novalidate="novalidate" class="needs-validation" method="post" action="{{route('update.password')}}">
                       @csrf
 {{--                    <div--}}
@@ -101,7 +101,7 @@
                     <div class="row gy-3">
                       <div class="col-12">
                         <label for="password" class="form-label"
-                          >New Password</label
+                          >{{ __('new_password') }}</label
                         >
                         <input
                           id="password"
@@ -115,7 +115,7 @@
                       </div>
                       <div class="col-12">
                         <label for="rePassword" class="form-label"
-                          >Confirm Password</label
+                          >{{ __('confirm_password') }}</label
                         >
                         <input
                           id="rePassword"
@@ -135,7 +135,7 @@
                           type="submit"
                           class="btn w-100 btn btn-primary btn-lg btn-success"
                         >
-                          Update
+                            {{ __('update') }}
                         </button>
                       </div>
                     </div>

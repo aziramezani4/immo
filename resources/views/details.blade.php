@@ -46,12 +46,12 @@
                       no-body=""
                       class="mb-1 border-0 bg-transparent d-block"
                     >
-                      <h4 variant="info">Details / Descriptions / Content</h4>
+                      <h4 variant="info">{{__('details')}} / {{__('description')}} /{{__('Content')}} </h4>
                       <div>
                         <h4 class="mb-3 mt-4 bg-light"></h4>
                         <div class="col-sm-12 mt-4">
                           <label for="name" class="form-label"
-                            >Title<span class="small text-danger m-1"
+                            >{{__('title')}}<span class="small text-danger m-1"
                               >*</span
                             ></label
                           >
@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-sm-12 mt-6">
                           <label for="description" class="form-label mt-4"
-                            >Description<span class="small text-danger m-1"
+                            >{{__('description')}}<span class="small text-danger m-1"
                               >*</span
                             ></label
                           >
@@ -84,7 +84,7 @@
                           <!---->
                           <div class="col-sm-12 mt-4">
                             <label for="content" class="form-label"
-                              >Content<span class="small text-danger m-1"
+                              >{{__('content')}}<span class="small text-danger m-1"
                                 >*</span
                               ></label
                             >
@@ -100,13 +100,13 @@
                             ></textarea>
                             <!---->
                           </div>
-                          <h4 class="mb-3 mt-4">Main features</h4>
+                          <h4 class="mb-3 mt-4">{{__('main features')}}</h4>
                           <div
                             class="d-flex flex-row gap-3 justify-content-between"
                           >
                             <div class="col-sm-6">
                               <label for="square" class="form-label"
-                                >Square<span class="small text-danger m-1"
+                                >{{__('square')}}<span class="small text-danger m-1"
                                   >*</span
                                 ></label
                               >
@@ -127,7 +127,7 @@
                               <label
                                 for="square_construction	"
                                 class="form-label"
-                                >Square Constration<span
+                                >{{__('square')}}<span
                                   class="small text-danger m-1"
                                   >*</span
                                 ></label
@@ -147,9 +147,10 @@
                           <div class="d-flex flex-row gap-3">
                             <div class="col-sm-6">
                               <label for="number_floor" class="form-label"
-                                >Floor
-                                <span class="small text-danger m-1">*</span> (
-                                Ground Floor = 0)</label
+                                >{{__('number_floor')}}
+                                <span class="small text-danger m-1">*</span>
+                                  {{__('number_floor')}}
+                                </label
                               >
                               <input
                                 id="number_floor"
@@ -164,7 +165,7 @@
                             </div>
                             <div class="col-sm-6">
                               <label for="number_bedroom" class="form-label"
-                                >Room<span class="small text-danger m-1"
+                                >{{__('number_bedroom')}}<span class="small text-danger m-1"
                                   >*</span
                                 ></label
                               >
@@ -181,11 +182,11 @@
                               <!---->
                             </div>
                           </div>
-                          <h4 class="mb-3 mt-4">Details</h4>
+                          <h4 class="mb-3 mt-4">{{__('details')}}</h4>
                           <div class="d-flex flex-row gap-3">
                             <div class="col-sm-6">
                               <label for="number_bathroom" class="form-label"
-                                >Bathrooms<span class="small text-danger m-1"
+                                >{{__('number_bathroom')}}<span class="small text-danger m-1"
                                   >*</span
                                 ></label
                               >
@@ -202,7 +203,7 @@
                             </div>
                             <div class="col-sm-6">
                               <label for="number_wc" class="form-label"
-                                >WC<span class="small text-danger m-1"
+                                >{{__('number_wc')}}<span class="small text-danger m-1"
                                   >*</span
                                 ></label
                               >
@@ -221,7 +222,7 @@
                           <div class="d-flex flex-row gap-3">
                             <div class="col-sm-6">
                               <label for="construction_year" class="form-label"
-                                >Construction Year<span
+                                >{{__('construction_year')}}<span
                                   class="small text-danger m-1"
                                   >*</span
                                 ></label
@@ -243,7 +244,7 @@
                               <label
                                 for="last_reconstruction"
                                 class="form-label"
-                                >Last Reconstruction</label
+                                >{{__('last_reconstruction')}}</label
                               >
                               <input
                                 id="last_reconstruction"
@@ -262,7 +263,7 @@
                           <div class="d-flex flex-row gap-3">
                             <div class="col-sm-6">
                               <label for="last_renovation" class="form-label"
-                                >Last Renovation</label
+                                >{{__('last_renovation')}}</label
                               >
                               <input
                                 id="last_renovation"
@@ -279,7 +280,7 @@
                             </div>
                             <div class="col-sm-6">
                               <label for="available_date" class="form-label"
-                                >Available Date</label
+                                >{{__('available_date')}}</label
                               >
                               <input
                                 id="available_date"
@@ -301,7 +302,7 @@
                             accordion="my-accordion"
                             role="tabpanel"
                           >
-                            <h4 class="mb-3">Costs</h4>
+                            <h4 class="mb-3">{{__('Costs')}}</h4>
                             <div
                               class="d-flex w-100 flex-row gap-2 px-3 border-0"
                             >
@@ -313,7 +314,7 @@
                                 <div class="d-flex flex-row gap-3">
                                   <div class="col-sm-6">
                                     <label for="price" class="form-label"
-                                      >Price<span class="small text-danger m-1"
+                                      >{{__('Price')}}<span class="small text-danger m-1"
                                         >*</span
                                       ></label
                                     >
@@ -340,7 +341,7 @@
                                       class="form-control select"
                                     >
                                       <option selected="selected" value="1">
-                                        CHF
+                                          CHF
                                       </option>
                                       <option value="2">€ EUR</option>
                                       <option value="3">$ USD</option>
@@ -357,7 +358,7 @@
                                 class="rounded px-2 py-2 col-sm-2 text-center text-dark text-lg border bg-white border-dark"
                                 style="border-radius: 8px !important"
                               >
-                                previous
+                                  previous
                               </a>
                               <button
                                 type="submit"
@@ -366,7 +367,7 @@
                                 style="border-radius: 8px !important"
                               >
 {{--                                <a href="#step2"></a>--}}
-                                next
+                                  next
                               </button>
                             </div>
                           </div>
