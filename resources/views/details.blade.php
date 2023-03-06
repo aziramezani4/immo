@@ -365,7 +365,7 @@
                                 class="rounded btn py-2 px-2 col-sm-2 text-lg border bg-dark text-white"
                                 style="border-radius: 8px !important"
                               >
-                                <a href="#step2"></a>
+{{--                                <a href="#step2"></a>--}}
                                 next
                               </button>
                             </div>
