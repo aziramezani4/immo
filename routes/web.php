@@ -123,6 +123,8 @@ Route::prefix('{locale}')
 
         require __DIR__ . '/auth.php';
 
+        Route::post('update/feature/facility/{property}', [PropertyController::class, 'update_feature_facility'])->name('update.feature.facility');
+
         Route::post('update/properties/step2/{property}', [PropertyController::class, 'update_property_step2'])->name('update.property.step2');
         Route::post('store/facility', [PropertyController::class, 'store_facility'])->name('store.facility');
 
@@ -150,7 +152,9 @@ Route::prefix('{locale}')
 
         Route::get('/myProperties', function () {
             $languages = DB::table('languages')->get();
-            return view('myProperties', ['languages' => $languages]);
+            $properties = DB::table('re_properties')->where('author_id',auth()->user()->id)->get();
+
+            return view('myProperties', ['languages' => $languages,'properties' => $properties]);
         })->middleware(['auth'])->name('myPropertiess');
 
     });

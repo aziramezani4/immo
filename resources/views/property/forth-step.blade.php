@@ -115,6 +115,7 @@
                                                     <option value="two" name="advertising_type">two</option>
 
                                                 </select>
+
                                                 <ul
                                                     id="vs6__listbox"
                                                     role="listbox"

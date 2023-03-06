@@ -74,7 +74,10 @@ class PropertyController extends Controller
             'category_id' => $request->input('category_id'),
             'country_id' => $request->input('country_id'),
             'state_id' => $request->input('state_id'),
+            'city_id' => $request->input('city_id'),
             'location' => $request->input('location'),
+            'author_id' => auth()->user()->id,
+            'author_type' => 'Botble\RealEstate\Models\Account',
         ]);
 
         return redirect()->route('second_step1');
@@ -132,19 +135,20 @@ class PropertyController extends Controller
         $languages = DB::table('languages')->get();
 
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
-
+$all_facility_distance = DB::table('re_facilities_distances')->where('reference_id',$property->id)->get();
 
         return view('details2', ['property' => $property->id,
             'features' => $features, 'facilities' => $facilities,
-            'languages' => $languages]);
+            'languages' => $languages,
+            'all_facility_distance' => $all_facility_distance]);
     }
 
 
     public function destroy($id)
     {
-        dd($id);
+
         $data = DB::table('new')->where('id', $id)->first();
-        dd($data);
+
 //        DB::delete('delete from new where id = ?',[$id]);
 
         return redirect()->back();
@@ -162,19 +166,43 @@ class PropertyController extends Controller
         return response()->json($data);
     }
 
-    public function update_property_step2(Request $request, $property)
+    public function update_feature_facility(Request $request, $property)
     {
+
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
-        foreach(request()->input('features') as $index) {
-           $feature = DB::table('re_features_translations')->where('name',$index)->first();
+        foreach (request()->input('features') as $index) {
+
+            $feature = DB::table('re_features_translations')->where('name', $index)->first();
+
             DB::table('re_property_features')->insert([
                 'property_id' => $property->id,
                 'feature_id' => $feature->re_features_id,
             ]);
         }
+    }
+    public function update_property_step2(Request $request, $property)
+    {
 
-        return redirect()->back();
+        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+
+        foreach(request()->input('features') as $index) {
+
+           $feature = DB::table('re_features_translations')->where('name',$index)->first();
+
+            DB::table('re_property_features')->insert([
+                'property_id' => $property->id,
+                'feature_id' => $feature->re_features_id,
+            ]);
+        }
+        DB::table('re_facilities_distances')->insert([
+            'reference_type' => 'Botble\RealEstate\Models\Property',
+            'reference_id' => $property->id,
+            'facility_id' => $request->input('facility_id'),
+            'distance' => $request->input('distance'),
+        ]);
+
+        return redirect()->route('step3',$property);
 
     }
 
@@ -194,8 +222,9 @@ class PropertyController extends Controller
     public function step3($property)
     {
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+        $languages = DB::table('languages')->get();
 
-        return view('property.forth-step', ['property' => $property->id]);
+        return view('details3', ['property' => $property->id,'languages' => $languages]);
     }
 
     public function update_property_step3(Request $request, $property)
@@ -260,8 +289,10 @@ class PropertyController extends Controller
     public function properties()
     {
         $languages = DB::table('languages')->get();
+        $properties = DB::table('re_properties')->where('author_id',auth()->user()->id)->get();
 
-        return view('myProperties', ['languages' => $languages]);
+        return view('myProperties', ['languages' => $languages,'properties' => $properties]);
+
     }
 
     public function update_profile(Request $request)
@@ -288,6 +319,7 @@ class PropertyController extends Controller
         ]);
 
         $account = DB::table('re_accounts')->where('id', auth()->user()->id)->first();
+
         DB::table('re_accounts')->where('id', auth()->user()->id)->update([
             'password' => bcrypt($request['password']),
         ]);
