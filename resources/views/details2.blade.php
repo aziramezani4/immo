@@ -47,7 +47,7 @@
                         <div no-body="" class="mb-1 bg-transparent border-0 d-block">
 
                             <h4 class="mb-3">
-                                Properties Features, fittings and equipment
+                                {{__('properties - equipment and features')}}
                             </h4>
 
                             <div class="row">
@@ -67,14 +67,14 @@
                              @endforeach
                             </div>
 
-                            <h4 class="mb-3">Location and surroundings</h4>
+                            <h4 class="mb-3">{{__('location and surroundings')}}</h4>
 
                             <div class="col-sm-12">
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th>Facility</th>
-                                        <th>Distance(km or m)</th>
+                                        <th>{{__('')}}Facility</th>
+                                        <th>{{__('')}}Distance(km or m)</th>
                                         <th style="width: 130px"></th>
                                     </tr>
                                     </thead>
@@ -113,7 +113,7 @@
                                             />
                                         </td>
                                         <td>
-                                            <div class="btn removeitem btn-danger btn-xs">Remove</div>
+                                            <div class="btn removeitem btn-danger btn-xs">{{__('')}}Remove</div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -122,7 +122,7 @@
                                     onClick="addItem();"
                                     class="btn btn btn-success mt-2 btn-secondary"
                                 >
-                                    Add
+                                    {{__('')}}Add
                                 </span>
                             </div>
 

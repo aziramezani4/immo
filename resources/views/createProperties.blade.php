@@ -6,7 +6,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
-    <title>Write a property · IMMO ALL</title>
+    <title>{{__('write a property')}}</title>
 
     <link rel="stylesheet" href="/assets/css/styles.css" />
 
@@ -47,17 +47,17 @@
                     <div class="row col-md-12 my-2">
                       <div class="col-md-6">
                         <label class="form-label fw-bold w-100"
-                          >Property
+                          >{{__('property')}}
 
                             <select class="form-control" id="exampleFormControlSelect1" name="type">
-                                <option value="rent">Rent</option>
-                                <option value="sale">Sale</option>
+                                <option value="rent">{{__('rent')}}</option>
+                                <option value="sale">{{__('sale')}}</option>
                             </select>
                         </label>
                       </div>
                       <div class="col-md-6">
                         <label class="form-label fw-bold w-100"
-                          >Category
+                          >{{__('category')}}
                             <select class="form-control" id="category_id" name="category_id">
                                 <option value="0"></option>
                                 @if($categories)
@@ -78,7 +78,7 @@
                     <div class="row col-md-12 my-2">
                       <div class="col-md-6">
                         <label class="form-label fw-bold w-100"
-                          >Country
+                          >{{__('country')}}
                             <select class="form-control" id="country-dd" name="country_id">
                                 <option value="0"></option>
                                 @foreach($countries as $country)
@@ -102,7 +102,7 @@
                     <div class="row col-md-12 my-2">
                       <div class="col-md-6">
                         <label class="form-label fw-bold w-100"
-                          >Post code, Place, Canton
+                          >{{__('post code, place, canton')}}
                             <div class="form-group">
                                 <select id="city-dd" name="city_id" class="form-control">
                                 </select>
@@ -111,7 +111,7 @@
                         <!---->
                       </div>
                       <div no-body="" class="mb-1 w-100">
-                          <label for="exampleFormControlSelect1">Location</label>
+                          <label for="exampleFormControlSelect1">{{__('location')}}</label>
                           <input class="form-control" name="location" type="text" placeholder="Default input">
                       </div>
                     </div>
@@ -120,7 +120,7 @@
                       class="btn btn btn-primary px-4 my-3 me-md-2 btn-primary"
                       style="background: rgb(0, 0, 55); float: right"
                     >
-                      Continue
+                        {{__('continue')}}
                     </button>
                   </form>
                 </div>
