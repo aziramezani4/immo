@@ -85,7 +85,8 @@
               <div class="col-md-7 col-lg-8">
                 <div>
                   <h4 class="mb-3">Your Password</h4>
-                  <form novalidate="novalidate" class="needs-validation">
+                  <form novalidate="novalidate" class="needs-validation" method="post" action="{{route('update.password')}}">
+                      @csrf
 {{--                    <div--}}
 {{--                      role="alert"--}}
 {{--                      class="alert alert-success alert-dismissible"--}}

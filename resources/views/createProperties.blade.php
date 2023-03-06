@@ -42,7 +42,7 @@
                 <div
                   class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3"
                 >
-                    <form class="form-horizontal" method="get" action="{{route('second_step')}}">
+                    <form class="form-horizontal" method="post" action="{{route('second_step')}}">
                         @csrf
                     <div class="row col-md-12 my-2">
                       <div class="col-md-6">

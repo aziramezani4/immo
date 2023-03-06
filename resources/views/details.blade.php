@@ -353,7 +353,7 @@
                               class="d-flex flex-row justify-content-end gap-3 m-2 mt-3"
                             >
                               <a
-                                href="/properties/create"
+                                href="{{route('create_peoperty')}}"
                                 class="rounded px-2 py-2 col-sm-2 text-center text-dark text-lg border bg-white border-dark"
                                 style="border-radius: 8px !important"
                               >

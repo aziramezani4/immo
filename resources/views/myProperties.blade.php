@@ -35,6 +35,25 @@
                   My Properties
                 </h3>
               </div>
+                <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                    @foreach($properties as $property)
+                        <div class="col-">
+                            <div class="card mb-4 rounded-3 shadow-sm">
+                                <div class="card-header py-3">
+                                    <h4 class="my-0 fw-normal">{{$property->name}}</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">
+                                        {{$property->description}}
+                                    </h1>
+
+                                    <br />
+
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
           </div>
         </main>
