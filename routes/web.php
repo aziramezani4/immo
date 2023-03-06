@@ -154,10 +154,12 @@ Route::prefix('{locale}')
             $languages = DB::table('languages')->get();
             $properties = DB::table('re_properties')->where('author_id',auth()->user()->id)->get();
 
-            return view('myProperties', ['languages' => $languages,'properties' => $properties]);
+            return view('properties', ['languages' => $languages,'properties' => $properties]);
         })->middleware(['auth'])->name('myPropertiess');
 
     });
 
 Route::post('api/fetch-states', [PropertyController::class, 'fetchState']);
 Route::post('api/fetch-cities', [PropertyController::class, 'fetchCity']);
+
+

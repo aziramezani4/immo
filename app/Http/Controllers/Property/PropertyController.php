@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Property;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Property\UpdatePropertystep1Request;
 use App\Models\Property;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
@@ -15,7 +14,7 @@ class PropertyController extends Controller
     public function home()
     {
         $languages = DB::table('languages')->get();
-        return view('home',['languages' => $languages]);
+        return view('home', ['languages' => $languages]);
     }
 
 //    public function first_step()
@@ -62,8 +61,8 @@ class PropertyController extends Controller
         $categories = DB::table('re_categories_translations')->where('lang_code', $lang_code)->get();
         $languages = DB::table('languages')->get();
 
-        return view('createProperties', ['categories' => $categories,'categoriess' => $categoriess,
-            'countries' => $countries, 'states' => $states, 'cities' => $cities,'languages' => $languages]);
+        return view('createProperties', ['categories' => $categories, 'categoriess' => $categoriess,
+            'countries' => $countries, 'states' => $states, 'cities' => $cities, 'languages' => $languages]);
     }
 
     public function store(Request $request)
@@ -78,6 +77,7 @@ class PropertyController extends Controller
             'location' => $request->input('location'),
             'author_id' => auth()->user()->id,
             'author_type' => 'Botble\RealEstate\Models\Account',
+
         ]);
 
         return redirect()->route('second_step1');
@@ -88,7 +88,7 @@ class PropertyController extends Controller
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
         $languages = DB::table('languages')->get();
 
-        return view('details', ['property' => $property->id,'languages' => $languages]);
+        return view('details', ['property' => $property->id, 'languages' => $languages]);
     }
 
     public function update_property_step1(UpdatePropertystep1Request $request, $property)
@@ -128,18 +128,30 @@ class PropertyController extends Controller
             $lang_code = 'fr_FR';
         } elseif (request()->segment(1) == 'it') {
             $lang_code = 'it_IT';
+        }elseif (request()->segment(1) == 'de') {
+            $lang_code = 'de_DE';
         }
 
-        $features = DB::table('re_features_translations')->where('lang_code', $lang_code)->get();
+        $facilitiess = DB::table('re_facilities')->get();
         $facilities = DB::table('re_facilities_translations')->where('lang_code', $lang_code)->get();
+        if (request()->segment(1) == 'de') {
+            $features = DB::table('re_features')->get();
+            $facilitiess = DB::table('re_facilities')->get();
+        } else {
+            $features = DB::table('re_features_translations')->where('lang_code', $lang_code)->get();
+            $facilities = DB::table('re_facilities_translations')->where('lang_code', $lang_code)->get();
+        }
+
+
         $languages = DB::table('languages')->get();
 
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
-$all_facility_distance = DB::table('re_facilities_distances')->where('reference_id',$property->id)->get();
+        $all_facility_distance = DB::table('re_facilities_distances')->where('reference_id', $property->id)->get();
 
         return view('details2', ['property' => $property->id,
             'features' => $features, 'facilities' => $facilities,
             'languages' => $languages,
+            'facilitiess' => $facilitiess,
             'all_facility_distance' => $all_facility_distance]);
     }
 
@@ -180,15 +192,80 @@ $all_facility_distance = DB::table('re_facilities_distances')->where('reference_
                 'feature_id' => $feature->re_features_id,
             ]);
         }
+        foreach (request()->input('facility_id') as $item) {
+            $facility = DB::table('re_facilities_translations')->where('re_facilities_id', $item)->first();
+                DB::table('re_facilities_distances')->insert([
+                    'reference_type' => 'Botble\RealEstate\Models\Property',
+                    'reference_id' => $property->id,
+                    'facility_id' => $facility->re_facilities_id,
+                    'distance' => $request->input('distance'),
+                ]);
+        }
+
+        $languages = DB::table('languages')->get();
+
+//        foreach ($request->file('images') as $image) {
+//
+//               $image->store('image', 'public');
+//
+//        }
+//        dd('here');
+//        $images = $request->get('images', []);
+//        if ($request->hasfile('pFiles')) {
+//            $images = array_merge($images,
+//                $this->saveFile($request->file('pFiles')));
+//        }
+//        if ($request->hasfile('pVideos')) {
+//            $images = array_merge($images,
+//                $this->saveFile($request->file('pVideos'), 'videos'));
+//        }
+//        if ($request->hasfile('pImages')) {
+//            $images = array_merge($images,
+//                $this->saveFile($request->file('pImages'), 'images', true));
+//        }
+//
+//        $request->merge([
+//            'images' => $images/*, 'videos' => $videos*/
+//        ]);
+        dd($request);
+
+        return view('details3', ['property' => $property->id, 'languages' => $languages]);
+
+    }
+    private function saveFile($files, $path = 'files', $isImage = false)
+    {
+        $collect = collect();
+        $url = URL::to('/');
+        foreach ($files as $file) {
+            $fileName = time().rand(0, 1000);
+            $fileName150x150 = $fileName.'-150x150.'
+                .$file->getClientOriginalExtension();
+            $fileName410x270 = $fileName.'-410x270.'
+                .$file->getClientOriginalExtension();
+            $fileName = $fileName.'.'
+                .Str::lower($file->getClientOriginalExtension());
+            $image_resize = Image::make($file->getRealPath());
+            $file->move(public_path().'/properties/'.$path, $fileName);
+            $collect->push($url.'/properties/'.$path.'/'.$fileName);
+            if ($isImage) {
+                $image_resize->resize(150, 150);
+                $image_resize->save(public_path('/properties/'
+                    .$path.'/'.$fileName150x150));
+                $image_resize->resize(410, 270);
+                $image_resize->save(public_path('/properties/'
+                    .$path.'/'.$fileName410x270));
+            }
+        }
+        return $collect->all();
     }
     public function update_property_step2(Request $request, $property)
     {
 
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
-        foreach(request()->input('features') as $index) {
+        foreach (request()->input('features') as $index) {
 
-           $feature = DB::table('re_features_translations')->where('name',$index)->first();
+            $feature = DB::table('re_features_translations')->where('name', $index)->first();
 
             DB::table('re_property_features')->insert([
                 'property_id' => $property->id,
@@ -202,7 +279,7 @@ $all_facility_distance = DB::table('re_facilities_distances')->where('reference_
             'distance' => $request->input('distance'),
         ]);
 
-        return redirect()->route('step3',$property);
+        return redirect()->route('step3', $property->id);
 
     }
 
@@ -224,7 +301,7 @@ $all_facility_distance = DB::table('re_facilities_distances')->where('reference_
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
         $languages = DB::table('languages')->get();
 
-        return view('details3', ['property' => $property->id,'languages' => $languages]);
+        return view('details3', ['property' => $property->id, 'languages' => $languages]);
     }
 
     public function update_property_step3(Request $request, $property)
@@ -271,12 +348,12 @@ $all_facility_distance = DB::table('re_facilities_distances')->where('reference_
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
         $languages = DB::table('languages')->get();
 
-        $package = DB::table('re_packages')->where('id',request()->segment(6))->first();
-        DB::table('re_properties')->where('id',request()->segment(5))->update([
+        $package = DB::table('re_packages')->where('id', request()->segment(6))->first();
+        DB::table('re_properties')->where('id', request()->segment(5))->update([
             'package' => request()->segment(6),
         ]);
 
-        return view('details5',['package'=>$package,'property'=>$property->id, 'languages' => $languages]);
+        return view('details5', ['package' => $package, 'property' => $property->id, 'languages' => $languages]);
     }
 
     public function publish($property)
@@ -286,28 +363,30 @@ $all_facility_distance = DB::table('re_facilities_distances')->where('reference_
 
         return view('details6', ['property' => $property->id, 'languages' => $languages]);
     }
+
     public function properties()
     {
         $languages = DB::table('languages')->get();
-        $properties = DB::table('re_properties')->where('author_id',auth()->user()->id)->get();
+        $properties = DB::table('re_properties')->where('author_id', auth()->user()->id)->get();
 
-        return view('myProperties', ['languages' => $languages,'properties' => $properties]);
+        return view('myProperties', ['languages' => $languages, 'properties' => $properties]);
 
     }
 
     public function update_profile(Request $request)
     {
 
-         $account = DB::table('re_accounts')->where('id', auth()->user()->id)->first();
+        $account = DB::table('re_accounts')->where('id', auth()->user()->id)->first();
         DB::table('re_accounts')->where('id', auth()->user()->id)->update([
-                'first_name' => $request->first_name ?? $account->first_name,
-                'last_name' => $request->last_name ?? $account->last_name,
-                'username' => $request->username ?? $account->username,
-                'phone' => $request->phone ?? $account->phone,
-                'email' => $request->email ?? $account->email,
+            'first_name' => $request->first_name ?? $account->first_name,
+            'last_name' => $request->last_name ?? $account->last_name,
+            'username' => $request->username ?? $account->username,
+            'phone' => $request->phone ?? $account->phone,
+            'email' => $request->email ?? $account->email,
+            'gender' => $request->gender ?? $account->gender,
 //                'company' => $request->company ?? $account->company,
-                'dob' => $request->dob ?? $account->dob,
-            ]);
+            'dob' => $request->dob ?? $account->dob,
+        ]);
 
         return redirect()->back();
     }

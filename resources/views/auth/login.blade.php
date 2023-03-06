@@ -1,61 +1,302 @@
-<x-guest-layout>
+{{--<x-guest-layout>--}}
 
-    <div class="form-group mt-1">
-        <a href="{{route('login.github')}}" class="btn btn-dark">Login with GitHub </a>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+    <title>Log In · IMMO ALL</title>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav
+    data-v-6dde423b=""
+    class="navbar navbar-expand-lg navbar-light bg-white"
+>
+    <div data-v-6dde423b="" class="container">
+        <a
+            data-v-6dde423b=""
+            href="/"
+            class="navbar-brand router-link-active"
+        >
+
+            <!-- Navigation - Logo -->
+            <img
+                data-v-6dde423b=""
+                src="/assets/images/immoall-logo.png"
+                height="30"
+                class=""
+            /></a>
+
+        <!-- Navigation - Toggle Button -->
+        <button
+            data-v-6dde423b=""
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbar"
+            class="navbar-toggler"
+        >
+            <span data-v-6dde423b="" class="navbar-toggler-icon"></span>
+        </button>
+        <div
+            data-v-6dde423b=""
+            id="navbar"
+            class="collapse navbar-collapse"
+        >
+
+            <!-- Navigation - Menu -->
+            <ul data-v-6dde423b="" class="navbar-nav ms-auto">
+                <li data-v-6dde423b="" class="nav-item">
+                    <a data-v-6dde423b="" href="/" class="nav-link">
+                        Home Page
+                    </a>
+                </li>
+                <li data-v-6dde423b="" class="nav-item">
+                    <a
+                        data-v-6dde423b=""
+                        href="{{ route('login') }}"
+                        class="nav-link router-link-exact-active active"
+                        aria-current="page"
+                    >
+                        Log In
+                    </a>
+                </li>
+                <li data-v-6dde423b="" class="nav-item">
+                    <a data-v-6dde423b="" href="{{ route('register') }}" class="nav-link">
+                        Register
+                    </a>
+                </li>
+
+                <!-- Navigation - Language Items -->
+                <li data-v-6dde423b="" class="nav-item dropdown">
+                    <a
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        class="nav-link dropdown-toggle"
+                    ><img
+                            src="/assets/images/flags/en.svg"
+                            alt="flag"
+                            width="20"
+                            height="20"
+                            class="me-1"
+                        /></a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a href="#" class="dropdown-item"
+                        ><img
+                                src="/assets/images/flags/de.svg"
+                                alt="flag"
+                                width="20"
+                                height="20"
+                            />
+                            Deutsch </a
+                        ><a href="#" class="dropdown-item"
+                        ><img
+                                src="/assets/images/flags/es.svg"
+                                alt="flag"
+                                width="20"
+                                height="20"
+                            />
+                            Español </a
+                        ><a href="#" class="dropdown-item"
+                        >
+                            <img
+                                src="/assets/images/flags/fr.svg"
+                                alt="flag"
+                                width="20"
+                                height="20"
+                            />
+                            Français </a
+                        ><a href="#" class="dropdown-item"
+                        ><img
+                                src="/assets/images/flags/it.svg"
+                                alt="flag"
+                                width="20"
+                                height="20"
+                            />
+                            Italiano </a
+                        ><a href="#" class="dropdown-item"
+                        ><img
+                                src="/assets/images/flags/en.svg"
+                                alt="flag"
+                                width="20"
+                                height="20"
+                            />
+                            English
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
+</nav>
 
-    <div class="form-group mt-1">
-        <a href="{{ url('/google-login') }}" class="btn btn-primary">Login With Google</a>
+
+<!-- Login Form -->
+<div class="container-lg mt-4">
+    <div
+        class="d-flex justify-content-center align-items-center align-content-center mb-5"
+    >
+        <div class="row w-100 mt-5">
+            <div class="col-xl-6 col-lg-7 col-md-9 col-sm-10 m-auto">
+                <div class="text-center mb-4">
+
+                    <!-- Content - Login Image -->
+                    <img
+                        src="/assets/images/person-circle.svg"
+                        alt=""
+                        width="72"
+                        height="72"
+                        class="mb-4"
+                    />
+                    <h1 class="h3 mb-3 font-weight-normal">Log In</h1>
+                </div>
+
+                <!-- Content - Login Form -->
+                <!-- Session Status -->
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <x-auth-session-status class="mb-4" :status="session('status')"/>
+
+                    <div class="mb-3 row">
+                        <label
+                            class="col-md-3 col-form-label text-md-end"
+                        ></label>
+                        <div class="col-md-7">
+                            <a href="{{ url('/google-login') }}">
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-dark w-100 mb-1"
+                                >
+                                    Login with
+                                    <svg
+                                        aria-hidden="true"
+                                        focusable="false"
+                                        data-prefix="fab"
+                                        data-icon="google"
+                                        role="img"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 488 512"
+                                        class="fa-color-google svg-inline--fa fa-google fa-w-16"
+                                    >
+                                        <path
+                                            fill="currentColor"
+                                            d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+                                            class=""
+                                        ></path>
+                                    </svg>
+                                </button>
+                            </a>
+                        </div>
+                        <label
+                            class="col-md-3 col-form-label text-md-end"
+                        ></label>
+                        <div class="col-md-7">
+                            <div class="d-flex">
+                                <hr class="w-100" />
+                                <span class="text-uppercase mx-3">or</span>
+                                <hr class="w-100" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label text-md-end"
+                        >Email</label
+                        >
+
+                        <!-- Form - Email -->
+                        <div class="col-md-7">
+                            <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required
+                                          autofocus autocomplete="username"/>
+                            <x-input-error :messages="$errors->get('email')" class="mt-2"/>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label text-md-end"
+                        >Password</label
+                        >
+
+                        <!-- Form - Password -->
+                        <div class="col-md-7">
+
+                            <x-text-input id="password" class="form-control"
+                                          type="password"
+                                          name="password"
+                                          required autocomplete="current-password"/>
+
+                            <x-input-error :messages="$errors->get('password')" class="mt-2"/>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-7 d-flex">
+
+                            <!-- Form - Remember CheckBox -->
+
+                            <div class="form-check">
+                                <input
+                                    id="remember_me"
+                                    name="remember"
+                                    type="checkbox"
+                                    class="form-check-input"
+                                />
+                                <label for="remember_me" class="form-check-label">
+                                    {{ __('Remember me') }}
+                                </label>
+                            </div>
+
+                            @if (Route::has('password.request'))
+                                <a class="small ms-auto my-auto"
+                                   href="{{ route('password.request') }}">
+                                    {{ __('Forgot your password?') }}
+                                </a>
+                            @endif
+
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-md-7 offset-md-3 d-flex">
+
+                            <!-- Form - Login Button -->
+                            <x-primary-button class="btn btn btn-primary btn-block w-100 btn-primary">
+                                {{ __('Log in') }}
+                            </x-primary-button>
+                        </div>
+                    </div>
+
+                    <!-- Form - Register now -->
+                    <div class="row">
+                        <div class="col-md-7 offset-md-3">
+                            Don`t have an account yet?
+                            <a href="{{ route('register') }}" class="small ms-auto">
+                                Register now
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
-    <br>
-    <br>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')"/>
-    <form method="POST" action="{{ route('login') }}">
-    @csrf
+<!-- Footer -->
+<footer class="footer text-center mx-5 my-2">
+    <div class="container">
+        <span class="text-muted">Copyright © 2023 ImmoAll Swiss, Inc</span>
+    </div>
+</footer>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
 
-    <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')"/>
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                          autofocus autocomplete="username"/>
-            <x-input-error :messages="$errors->get('email')" class="mt-2"/>
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')"/>
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                          type="password"
-                          name="password"
-                          required autocomplete="current-password"/>
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2"/>
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox"
-                       class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
-                       name="remember">
-                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                   href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+{{--</x-guest-layout>--}}
