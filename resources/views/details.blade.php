@@ -172,7 +172,7 @@
                               <label for="number_floor" class="form-label"
                                 >{{__('number_floor')}}
                                 <span class="small text-danger m-1">*</span>
-                                  {{__('number_floor')}}
+
                                 </label
                               >
                               <input
