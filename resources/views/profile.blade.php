@@ -5,7 +5,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Settings · IMMO ALL</title>
+    <title>{{__('settings')}} · IMMO ALL</title>
 
     <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
@@ -76,7 +76,7 @@
                           class=""
                         ></path>
                       </svg>
-                        {{__('')}} Password
+                        {{__('password')}}
                     </a>
                   </li>
                 </ul>

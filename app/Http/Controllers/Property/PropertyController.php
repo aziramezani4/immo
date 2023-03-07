@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Property;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Property\StorePropertyRequest;
 use App\Http\Requests\Property\UpdatePropertystep1Request;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 
 class PropertyController extends Controller
 {
+
     public function home()
     {
         $languages = DB::table('languages')->get();
@@ -65,7 +68,7 @@ class PropertyController extends Controller
             'countries' => $countries, 'states' => $states, 'cities' => $cities, 'languages' => $languages]);
     }
 
-    public function store(Request $request)
+    public function store(StorePropertyRequest $request)
     {
 
         DB::table('re_properties')->insert([
@@ -75,8 +78,6 @@ class PropertyController extends Controller
             'state_id' => $request->input('state_id'),
             'city_id' => $request->input('city_id'),
             'location' => $request->input('location'),
-            'author_id' => auth()->user()->id,
-            'author_type' => 'Botble\RealEstate\Models\Account',
 
         ]);
 
@@ -113,6 +114,8 @@ class PropertyController extends Controller
                 'currency_id' => $request->currency_id ?? $property->currency_id,
                 'additional_costs' => $request->additional_costs ?? $property->additional_costs,
                 'net_rent' => $request->net_rent ?? $property->net_rent,
+                'author_id' => auth()->user()->id,
+                'author_type' => 'Botble\RealEstate\Models\Account',
             ]);
 
         return redirect()->route('step2', ['property' => $property->id]);
@@ -120,6 +123,7 @@ class PropertyController extends Controller
 
     public function step2($property)
     {
+
         if (request()->segment(1) == 'en') {
             $lang_code = 'en_US';
         } elseif (request()->segment(1) == 'es') {
@@ -175,23 +179,61 @@ class PropertyController extends Controller
     public function fetchCity(Request $request)
     {
         $data['cities'] = DB::table('cities')->where("state_id", $request->state_id)->get(["name", "id"]);
+
         return response()->json($data);
     }
 
     public function update_feature_facility(Request $request, $property)
     {
-
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
-        foreach (request()->input('features') as $index) {
-
-            $feature = DB::table('re_features_translations')->where('name', $index)->first();
-
-            DB::table('re_property_features')->insert([
-                'property_id' => $property->id,
-                'feature_id' => $feature->re_features_id,
-            ]);
+        if (request()->segment(1) == 'en') {
+            $lang_code = 'en_US';
+        } elseif (request()->segment(1) == 'es') {
+            $lang_code = 'es_ES';
+        } elseif (request()->segment(1) == 'fr') {
+            $lang_code = 'fr_FR';
+        } elseif (request()->segment(1) == 'it') {
+            $lang_code = 'it_IT';
+        }elseif (request()->segment(1) == 'de') {
+            $lang_code = 'de_DE';
         }
+
+        if (request()->segment(1) == 'de') {
+
+            foreach (request()->input('features') as $index) {
+
+                $features = DB::table('re_features')->where('name', $index)->first();
+
+                DB::table('re_property_features')->insert([
+                    'property_id' => $property->id,
+                    'feature_id' => $features->id,
+                ]);
+            }
+        } else {
+
+            foreach (request()->input('features') as $index) {
+
+                $feature = DB::table('re_features_translations')->where('name', $index)->first();
+
+                DB::table('re_property_features')->insert([
+                    'property_id' => $property->id,
+                    'feature_id' => $feature->re_features_id,
+                ]);
+            }
+        }
+
+
+
+//        foreach (request()->input('features') as $index) {
+//
+//            $feature = DB::table('re_features_translations')->where('name', $index)->first();
+//
+//            DB::table('re_property_features')->insert([
+//                'property_id' => $property->id,
+//                'feature_id' => $feature->re_features_id,
+//            ]);
+//        }
         foreach (request()->input('facility_id') as $item) {
             $facility = DB::table('re_facilities_translations')->where('re_facilities_id', $item)->first();
                 DB::table('re_facilities_distances')->insert([
@@ -204,32 +246,31 @@ class PropertyController extends Controller
 
         $languages = DB::table('languages')->get();
 
-//        foreach ($request->file('images') as $image) {
-//
-//               $image->store('image', 'public');
-//
-//        }
-//        dd('here');
-//        $images = $request->get('images', []);
-//        if ($request->hasfile('pFiles')) {
-//            $images = array_merge($images,
-//                $this->saveFile($request->file('pFiles')));
-//        }
-//        if ($request->hasfile('pVideos')) {
-//            $images = array_merge($images,
-//                $this->saveFile($request->file('pVideos'), 'videos'));
-//        }
-//        if ($request->hasfile('pImages')) {
-//            $images = array_merge($images,
-//                $this->saveFile($request->file('pImages'), 'images', true));
-//        }
-//
-//        $request->merge([
-//            'images' => $images/*, 'videos' => $videos*/
-//        ]);
-        dd($request);
+        foreach ($request->file('images') as $image) {
 
-        return view('details3', ['property' => $property->id, 'languages' => $languages]);
+               $image->store('image', 'public');
+
+        }
+
+
+        //        $images = array();
+        $date = now()->format('F').now()->format('Y');
+
+        if ($files = $request->file('images')) {
+            foreach($files as $file) {
+                $name = rand() . '.' . $file->getClientOriginalExtension();
+                $file->store('image', 'public');
+                $images[] = 'property/'.$date.'/'.$name;
+            }
+
+        }
+        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+
+         DB::table('re_properties')->where('id',$property->id)->update([
+            'images' => $images,
+        ]);
+
+        return redirect()->route('step3', ['property' => $property->id, 'languages' => $languages]);
 
     }
     private function saveFile($files, $path = 'files', $isImage = false)
@@ -404,5 +445,31 @@ class PropertyController extends Controller
         ]);
 
         return redirect()->back();
+    }
+
+    public function store_image(Request $request)
+    {
+//        $images = array();
+        $date = now()->format('F').now()->format('Y');
+
+        if ($files = $request->file('images')) {
+            foreach($files as $file) {
+//                $images[] = $file->store('image', 'public');
+                $name = rand() . '.' . $file->getClientOriginalExtension();
+//                $file->move('storage/property/'.$date.'/', $name);
+                $file->store('image', 'public');
+                $images[] = 'property/'.$date.'/'.$name;
+
+            }
+
+        }
+        dd($images);
+        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+
+        DB::table('re_properties')->where('id',$property->id)->update([
+            'images' => $images,
+        ]);
+        dd($property);
+        return $property;
     }
 }

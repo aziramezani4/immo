@@ -6,7 +6,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
-    <title>Write a property · IMMO ALL</title>
+    <title>{{__('write a property')}} · IMMO ALL</title>
 
     <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
@@ -33,13 +33,13 @@
                   <span>Your selection:</span> <b>{{$package->name}}</b>{{'  '.$package->price.' '.'CHF'}}
                 </h1>
                 <p class="col-md-8 fs-4">
-                  The advertisement will be activated for publication after our
-                  quality check.The duration of advertisements is one month. If
-                  the advertisement is not canceled before the end of the
-                  monthly period 30 days , the term is automatically extended by
-                  a further month. The customer is responsible for canceling his
-                  ad before the 30-day period has expired.All prices are in
-                  Swiss Francs CHF exclusive of VAT
+                    {{__('The advertisement will be activated for publication after
+                           our quality check.The duration of advertisements is one month.
+                            If the advertisement is not canceled before the end of the monthly
+                             period 30 days , the term is automaticallyextended by a further
+                              month. The customer is responsible for canceling his ad before
+                              the 30-day period has expired.All prices are in Swiss Francs CHF
+                               exclusive of VAT')}}
                 </p>
                 <a type="button" class="btn btn-outline-primary btn-lg">
                   back
@@ -48,7 +48,7 @@
                   type="submit"
                   class="btn btn btn-primary btn-lg btn-button"
                 > <a href="{{route('publish',[$property])}}" >
-                        Publish</a>
+                        {{__('publish')}}</a>
                 </button>
               </div>
             </div>

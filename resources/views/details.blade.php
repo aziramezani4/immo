@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
   <body>
+
     <div id="app">
       <div
         data-v-6ca9e6be=""
@@ -31,16 +32,16 @@
               <div role="tablist" class="accordion">
                 <div class="text-center border my-3">
                   <h4 class="fw-bolder rounded mt-2">
-                    For Sale :: Sonstiges :: undefined
+
                   </h4>
                 </div>
               </div>
               <div
                 class="col-xs-12 col-md-10 col-xl-10 col-lg-12 p-4 pb-0 pt-lg-5 align-items-center"
               >
-                  <form class="form-horizontal" method="post" action="{{route('update.property.step1',$property)}}" enctype="multipart/form-data">
+                  <form class="form-horizontal" method="PUT" action="{{route('update.property.step1',$property)}}" enctype="multipart/form-data">
                       @csrf
-
+                      @method('PUT')
                   <div class="row g-3 bg-transparent">
                     <div
                       no-body=""
@@ -63,7 +64,13 @@
                             spellcheck="false"
                             data-ms-editor="true"
                             class="form-control"
+                            required
+                            value="{{DB::table('re_properties')->where('id',$property)->first()->name}}"
                           />
+
+                            @if($errors->has('name'))
+                                <div class="error alert-danger">{{ $errors->first('name') }}</div>
+                        @endif
                           <!---->
                         </div>
                         <div class="col-sm-12 mt-6">
@@ -80,7 +87,11 @@
                             spellcheck="false"
                             data-ms-editor="true"
                             class="form-control"
+                            required
                           ></textarea>
+                            @if($errors->has('description'))
+                                <div class="error alert-danger">{{ $errors->first('description') }}</div>
+                        @endif
                           <!---->
                           <div class="col-sm-12 mt-4">
                             <label for="content" class="form-label"
@@ -97,7 +108,11 @@
                               data-ms-editor="true"
                               class="form-control"
                               style="min-height: 155px"
+                              required
                             ></textarea>
+                              @if($errors->has('content'))
+                                  <div class="error alert-danger">{{ $errors->first('content') }}</div>
+                          @endif
                             <!---->
                           </div>
                           <h4 class="mb-3 mt-4">{{__('main features')}}</h4>
@@ -119,7 +134,11 @@
                                   spellcheck="false"
                                   data-ms-editor="true"
                                   class="form-control"
+                                  required
                                 />
+                                  @if($errors->has('square'))
+                                      <div class="error alert-danger">{{ $errors->first('square') }}</div>
+                                  @endif
                               </div>
                               <!---->
                             </div>
@@ -140,7 +159,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('square_construction'))
+                                    <div class="error alert-danger">{{ $errors->first('square_construction') }}</div>
+                            @endif
                               <!---->
                             </div>
                           </div>
@@ -160,7 +183,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('number_floor'))
+                                    <div class="error alert-danger">{{ $errors->first('number_floor') }}</div>
+                            @endif
                               <!---->
                             </div>
                             <div class="col-sm-6">
@@ -178,7 +205,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('number_bedroom'))
+                                    <div class="error alert-danger">{{ $errors->first('number_bedroom') }}</div>
+                            @endif
                               <!---->
                             </div>
                           </div>
@@ -198,7 +229,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('number_bathroom'))
+                                    <div class="error alert-danger">{{ $errors->first('number_bathroom') }}</div>
+                            @endif
                               <!---->
                             </div>
                             <div class="col-sm-6">
@@ -215,7 +250,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('number_wc'))
+                                    <div class="error alert-danger">{{ $errors->first('number_wc') }}</div>
+                            @endif
                               <!---->
                             </div>
                           </div>
@@ -237,7 +276,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('construction_year'))
+                                    <div class="error alert-danger">{{ $errors->first('construction_year') }}</div>
+                            @endif
                               <!---->
                             </div>
                             <div class="col-sm-6">
@@ -256,7 +299,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('last_reconstruction'))
+                                    <div class="error alert-danger">{{ $errors->first('last_reconstruction') }}</div>
+                            @endif
                               <!---->
                             </div>
                           </div>
@@ -275,7 +322,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('last_renovation'))
+                                    <div class="error alert-danger">{{ $errors->first('last_renovation') }}</div>
+                            @endif
                               <!---->
                             </div>
                             <div class="col-sm-6">
@@ -290,7 +341,11 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
+                                required
                               />
+                                @if($errors->has('available_date'))
+                                    <div class="error alert-danger">{{ $errors->first('available_date') }}</div>
+                            @endif
                               <!---->
                             </div>
                           </div>
@@ -326,7 +381,11 @@
                                       spellcheck="false"
                                       data-ms-editor="true"
                                       class="form-control"
+                                      required
                                     />
+                                      @if($errors->has('price'))
+                                          <div class="error alert-danger">{{ $errors->first('price') }}</div>
+                                  @endif
                                     <!---->
                                   </div>
                                   <div class="col-sm-2">
