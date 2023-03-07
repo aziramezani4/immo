@@ -55,9 +55,12 @@ class PropertyController extends Controller
             'state_id' => $request->input('state_id'),
             'city_id' => $request->input('city_id'),
             'location' => $request->input('location'),
-
         ]);
-
+        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+        DB::table('re_property_categories')->insert([
+            'property_id' => $property->id,
+            'category_id' => $request->input('category_id'),
+        ]);
         return redirect()->route('second_step1');
     }
 
@@ -242,32 +245,32 @@ class PropertyController extends Controller
 
         $image_exists = $request->file('images');
 
-if($image_exists == Null){
-    foreach ($request->file('images') as $image) {
+        if ($image_exists == Null) {
+            foreach ($request->file('images') as $image) {
 
-        $image->store('image', 'public');
+                $image->store('image', 'public');
 
-    }
+            }
 
-    //        $images = array();
-    $date = now()->format('F') . now()->format('Y');
+            //        $images = array();
+            $date = now()->format('F') . now()->format('Y');
 
-    if ($files = $request->file('images')) {
-        foreach ($files as $file) {
-            $name = rand() . '.' . $file->getClientOriginalExtension();
-            $file->store('image', 'public');
-            $images[] = 'property/' . $date . '/' . $name;
+            if ($files = $request->file('images')) {
+                foreach ($files as $file) {
+                    $name = rand() . '.' . $file->getClientOriginalExtension();
+                    $file->store('image', 'public');
+                    $images[] = 'property/' . $date . '/' . $name;
+                }
+
+            }
+            $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
+
+            DB::table('re_properties')->where('id', $property->id)->update([
+                'images' => $images,
+            ]);
+        } else {
+
         }
-
-    }
-    $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
-
-    DB::table('re_properties')->where('id', $property->id)->update([
-        'images' => $images,
-    ]);
-}else {
-
-}
 
 
         return redirect()->route('step3', ['property' => $property->id, 'languages' => $languages]);

@@ -275,7 +275,6 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
-                                required
                               />
                                 @if($errors->has('construction_year'))
                                     <div class="error alert-danger">{{ $errors->first('construction_year') }}</div>
@@ -298,7 +297,6 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
-                                required
                               />
                                 @if($errors->has('last_reconstruction'))
                                     <div class="error alert-danger">{{ $errors->first('last_reconstruction') }}</div>
@@ -321,7 +319,6 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
-                                required
                               />
                                 @if($errors->has('last_renovation'))
                                     <div class="error alert-danger">{{ $errors->first('last_renovation') }}</div>
