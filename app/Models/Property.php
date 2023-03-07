@@ -117,22 +117,22 @@ class Property extends Model
             'property_id', 'feature_id');
     }
 
-//// Add Categories
-//    public function categories(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Category::class, 're_property_categories',
-//            'property_id', 'category_id');
-//    }
-//
-//    /**
-//     * @return BelongsToMany
-//     */
-//    public function facilities(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Facility::class, 're_facilities_distances',
-//            'reference_id')->withPivot('distance', 'reference_type');
-//    }
-//
+// Add Categories
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 're_property_categories',
+            'property_id', 'category_id');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function facilities(): BelongsToMany
+    {
+        return $this->belongsToMany(Facility::class, 're_facilities_distances',
+            'reference_id')->withPivot('distance', 'reference_type');
+    }
+
     /**
      * @param string $value
      *

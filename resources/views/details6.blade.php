@@ -42,7 +42,7 @@
                              your listing.')}}
                   </p>
                   <p>{{__('Your property reference:')}}<b>cqfhz.06rx.dc.56.68296</b></p>
-                    <a href="{{route('my.properties',$property)}}" class="nav-link">
+                    <a href="{{route('myPropertiess',$property)}}" class="nav-link">
                     {{__('Continue to my advertisements')}}
                   </a>
                 </div>
