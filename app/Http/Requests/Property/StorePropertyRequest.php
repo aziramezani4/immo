@@ -27,8 +27,8 @@ class StorePropertyRequest extends FormRequest
             'type'=>['required'],
             'category_id'=>['required', 'string', Rule::exists('re_categories', 'id')],
             'country_id'=>['required', 'string', Rule::exists('countries', 'id')],
-            'state_id'=>['required', 'string', Rule::exists('states', 'id')],
-            'city_id'=>['required', 'string', Rule::exists('cities', 'id')],
+            'state_id'=>['nullable', 'string', Rule::exists('states', 'id')],
+            'city_id'=>['nullable', 'string', Rule::exists('cities', 'id')],
             'location'=>['required', 'string'],
         ];
     }

@@ -47,7 +47,7 @@
   "already have login and password?": "Haben Sie bereits Login und Passwort?",
   "submit_ad": "Weiter zum inserieren",
   "please confirm your email:": "Bitte bestätigen Sie jetzt Ihre E-Mail Adresse",
-  "check_spam:": "Bestätigen Sie bitte Ihre E-Mail-Adresse,Wenn Sie unsere E-Mail nicht erhalten, überprüfen Sie bitte Ihren Junk oder Spam Ordner",   
+  "check_spam:": "Bestätigen Sie bitte Ihre E-Mail-Adresse,Wenn Sie unsere E-Mail nicht erhalten, überprüfen Sie bitte Ihren Junk oder Spam Ordner",
   "email_verification": "E-Mail-Verifizierung / Bestätigung",
   "please_confirm_your_phone:": "Bitte bestätigen Sie Ihr Telefon",
   "phone_verification": "Telefonbestätigung / Verifizierung",
@@ -145,7 +145,7 @@
   "Beach": "Strand",
   "Mall": "Einkaufszentrum / Shopping-Center",
   "Bank": "Bank",
-  "Shopping mall": "Shopping-Center / Einkaufszentrum",   
+  "Shopping mall": "Shopping-Center / Einkaufszentrum",
   "Public transport": "Öffentliche Verkehrsmittel",
   "Fitness center": "Fitnesscenter",
   "Highway": "Autobahn",
@@ -171,5 +171,8 @@
   "renting": "Vermietung",
   "rented": "Gemietet",
   "building": "Gebäude",
-  "Ground Floor": "Erdgeschoss = 0"  
+  "Ground Floor": "Erdgeschoss = 0",
+   "Proceed to advertise":"Fahren Sie mit der Werbung fort",
+    "Dashboard": "Armaturenbrett",
+    "Create your Ads": "Erstellen Sie Ihre Anzeigen"
 }

@@ -82,7 +82,7 @@
                                         <tbody id="items">
                                         <tr>
                                             <td>
-                                                <select class="form-control" id="facility_id" name="facility_id[]">
+                                                <select class="form-control @error('facilities[]') is-invalid @enderror" required id="facility_id"  name="facilities[]">
                                                     <option value="0"></option>
                                                     @if(request()->segment(1) != 'de')
                                                         @if($facilities)
@@ -101,6 +101,9 @@
                                                         @endif
                                                     @endif
                                                 </select>
+                                                @if($errors->has('facilities[]'))
+                                                    <div class="error alert-danger">{{ $errors->first('facilities[]') }}</div>
+                                                @endif
                                             </td>
                                             <td>
 
@@ -111,7 +114,9 @@
                                                     spellcheck="false"
                                                     data-ms-editor="true"
                                                     name="distance"
+
                                                 />
+
                                             </td>
                                             <td>
                                                 <div class="btn removeitem btn-danger btn-xs">{{__('remove')}}</div>
@@ -293,7 +298,7 @@
         var html = `
         <tr>
                                                 <td>
-                                                    <select class="form-control" id="facility_id" name="facility_id">
+                                                    <select class="form-control" id="facility_id" name="facilities[]">
                                                         <option value="0"></option>
 @if($facilities)
                                                         @foreach($facilities as $item)

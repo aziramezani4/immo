@@ -103,8 +103,16 @@
                         >
                           <select class="form-control  @error('status') is-invalid @enderror" required id="status" name="status">
                               <option value=""></option>
-                              <option value="read" name="status">read</option>
-                              <option value="unread" name="status">unread</option>
+                              <option value="{{__('not_available')}}" name="status">{{__('not_available')}}</option>
+                              <option value="{{__('pre_sale')}}" name="status">{{__('pre_sale')}}</option>
+                              <option value="{{__('selling')}}" name="status">{{__('selling')}}</option>
+                              <option value="{{__('sold')}}" name="status">{{__('sold')}}</option>
+                              <option value="{{__('renting')}}" name="status">{{__('renting')}}</option>
+                              <option value="{{__('rented')}}" name="status">{{__('rented')}}</option>
+                              <option value="{{__('building')}}" name="status">{{__('building')}}</option>
+                              <option value="{{__('reserved')}}" name="status">{{__('reserved')}}</option>
+                              <option value="{{__('for_rent')}}" name="status">{{__('for_rent')}}</option>
+                              <option value="{{__('for_sale')}}" name="status">{{__('for_sale')}}</option>
 
                           </select>
 
@@ -115,8 +123,9 @@
                           >Advertiser
                             <select class="form-control" id="advertising_type" name="advertising_type">
                                 <option value=""></option>
-                                <option value="one" name="advertising_type">one</option>
-                                <option value="two" name="advertising_type">two</option>
+                                <option value="{{__('agent')}}" name="advertising_type">{{__('agent')}}</option>
+                                <option value="{{__('owner')}}" name="advertising_type">{{__('owner')}}</option>
+                                <option value="{{__('other')}}" name="advertising_type">{{__('other')}}</option>
 
                             </select>
                         </label>

@@ -39,9 +39,9 @@
               <div
                 class="col-xs-12 col-md-10 col-xl-10 col-lg-12 p-4 pb-0 pt-lg-5 align-items-center"
               >
-                  <form class="form-horizontal" method="PUT" action="{{route('update.property.step1',$property)}}" enctype="multipart/form-data">
+                  <form class="form-horizontal" method="post" action="{{route('update.property.step1',$property)}}" enctype="multipart/form-data">
                       @csrf
-                      @method('PUT')
+
                   <div class="row g-3 bg-transparent">
                     <div
                       no-body=""
@@ -65,7 +65,6 @@
                             data-ms-editor="true"
                             class="form-control"
                             required
-                            value="{{DB::table('re_properties')->where('id',$property)->first()->name}}"
                           />
 
                             @if($errors->has('name'))

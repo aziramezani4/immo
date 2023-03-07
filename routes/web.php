@@ -113,7 +113,7 @@ Route::prefix('{locale}')
             ->middleware(['auth'])->name('second_step1');
 
 
-        Route::put('update/properties/step1/{property?}',
+        Route::post('update/properties/step1/{property?}',
             [PropertyController::class,
                 'update_property_step1'])->middleware(['auth'])->name('update.property.step1');
 

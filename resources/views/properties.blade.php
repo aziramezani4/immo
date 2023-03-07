@@ -42,7 +42,7 @@
                                 <img width="250" height="250">
                             </div>
                             <div class="col p-4 d-flex flex-column position-static">
-                                <strong class="d-inline-block mb-2 text-primary">this is</strong>
+                                <strong class="d-inline-block mb-2 text-primary">{{$property->name}}</strong>
                                 <h3 class="mb-0">
                                     {{$property->created_at}}
                   </h3> <div class="mb-1 text-muted">

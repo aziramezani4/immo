@@ -20,29 +20,6 @@ class PropertyController extends Controller
         return view('home', ['languages' => $languages]);
     }
 
-//    public function first_step()
-//    {
-//        if (request()->segment(1) == 'en') {
-//            $lang_code = 'en_US';
-//        } elseif (request()->segment(1) == 'es') {
-//            $lang_code = 'es_ES';
-//        } elseif (request()->segment(1) == 'fr') {
-//            $lang_code = 'fr_FR';
-//        } elseif (request()->segment(1) == 'it') {
-//            $lang_code = 'it_IT';
-//        } elseif (request()->segment(1) == 'de') {
-//            $lang_code = 'de_DE';
-//        }
-//
-//        $countries = DB::table('countries')->get();
-//        $states = DB::table('states')->get();
-//        $cities = DB::table('cities')->get();
-//        $categoriess = DB::table('re_categories')->get();
-//        $categories = DB::table('re_categories_translations')->where('lang_code', $lang_code)->get();
-//
-//        return view('property.first-step', ['categories' => $categories,'categoriess' => $categoriess,
-//            'countries' => $countries, 'states' => $states, 'cities' => $cities]);
-//    }
     public function create_peoperty()
     {
         if (request()->segment(1) == 'en') {
@@ -132,7 +109,7 @@ class PropertyController extends Controller
             $lang_code = 'fr_FR';
         } elseif (request()->segment(1) == 'it') {
             $lang_code = 'it_IT';
-        }elseif (request()->segment(1) == 'de') {
+        } elseif (request()->segment(1) == 'de') {
             $lang_code = 'de_DE';
         }
 
@@ -185,6 +162,9 @@ class PropertyController extends Controller
 
     public function update_feature_facility(Request $request, $property)
     {
+        $request->validate([
+            'distance' => ['required'],
+        ]);
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
         if (request()->segment(1) == 'en') {
@@ -195,34 +175,39 @@ class PropertyController extends Controller
             $lang_code = 'fr_FR';
         } elseif (request()->segment(1) == 'it') {
             $lang_code = 'it_IT';
-        }elseif (request()->segment(1) == 'de') {
+        } elseif (request()->segment(1) == 'de') {
             $lang_code = 'de_DE';
         }
 
-        if (request()->segment(1) == 'de') {
+        $exists_feature = !$request->get('features', []);
+//        dd(!$a);
 
-            foreach (request()->input('features') as $index) {
+        if (!$exists_feature) {
 
-                $features = DB::table('re_features')->where('name', $index)->first();
+            if (request()->segment(1) == 'de') {
 
-                DB::table('re_property_features')->insert([
-                    'property_id' => $property->id,
-                    'feature_id' => $features->id,
-                ]);
+                foreach ($request->get('features', []) as $index) {
+                    $features = DB::table('re_features')->where('name', $index)->first();
+                    DB::table('re_property_features')->insert([
+                        'property_id' => $property->id,
+                        'feature_id' => $features->id,
+                    ]);
+                }
+            } else {
+
+                foreach ($request->get('features', []) as $index) {
+
+                    $feature = DB::table('re_features_translations')->where('name', $index)->first();
+
+                    DB::table('re_property_features')->insert([
+                        'property_id' => $property->id,
+                        'feature_id' => $feature->re_features_id,
+                    ]);
+                }
             }
         } else {
 
-            foreach (request()->input('features') as $index) {
-
-                $feature = DB::table('re_features_translations')->where('name', $index)->first();
-
-                DB::table('re_property_features')->insert([
-                    'property_id' => $property->id,
-                    'feature_id' => $feature->re_features_id,
-                ]);
-            }
         }
-
 
 
 //        foreach (request()->input('features') as $index) {
@@ -234,71 +219,61 @@ class PropertyController extends Controller
 //                'feature_id' => $feature->re_features_id,
 //            ]);
 //        }
-        foreach (request()->input('facility_id') as $item) {
-            $facility = DB::table('re_facilities_translations')->where('re_facilities_id', $item)->first();
+
+//        $property->facilities()->sync($request->get('facilities', []));
+//        $property->facilities()->detach();
+//        $property->facilities()->attach($request->get('facilities', []));
+        $facility_exists = !$request->get('facilities', []);
+
+        if (!$facility_exists) {
+            foreach ($request->get('facilities', []) as $item) {
+                $facility = DB::table('re_facilities_translations')->where('re_facilities_id', $item)->first();
                 DB::table('re_facilities_distances')->insert([
                     'reference_type' => 'Botble\RealEstate\Models\Property',
                     'reference_id' => $property->id,
                     'facility_id' => $facility->re_facilities_id,
                     'distance' => $request->input('distance'),
                 ]);
-        }
+            }
+        } else {
 
+        }
         $languages = DB::table('languages')->get();
 
-        foreach ($request->file('images') as $image) {
+        $image_exists = $request->file('images');
 
-               $image->store('image', 'public');
+if($image_exists == Null){
+    foreach ($request->file('images') as $image) {
 
+        $image->store('image', 'public');
+
+    }
+
+    //        $images = array();
+    $date = now()->format('F') . now()->format('Y');
+
+    if ($files = $request->file('images')) {
+        foreach ($files as $file) {
+            $name = rand() . '.' . $file->getClientOriginalExtension();
+            $file->store('image', 'public');
+            $images[] = 'property/' . $date . '/' . $name;
         }
 
+    }
+    $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
-        //        $images = array();
-        $date = now()->format('F').now()->format('Y');
+    DB::table('re_properties')->where('id', $property->id)->update([
+        'images' => $images,
+    ]);
+}else {
 
-        if ($files = $request->file('images')) {
-            foreach($files as $file) {
-                $name = rand() . '.' . $file->getClientOriginalExtension();
-                $file->store('image', 'public');
-                $images[] = 'property/'.$date.'/'.$name;
-            }
+}
 
-        }
-        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
-
-         DB::table('re_properties')->where('id',$property->id)->update([
-            'images' => $images,
-        ]);
 
         return redirect()->route('step3', ['property' => $property->id, 'languages' => $languages]);
 
     }
-    private function saveFile($files, $path = 'files', $isImage = false)
-    {
-        $collect = collect();
-        $url = URL::to('/');
-        foreach ($files as $file) {
-            $fileName = time().rand(0, 1000);
-            $fileName150x150 = $fileName.'-150x150.'
-                .$file->getClientOriginalExtension();
-            $fileName410x270 = $fileName.'-410x270.'
-                .$file->getClientOriginalExtension();
-            $fileName = $fileName.'.'
-                .Str::lower($file->getClientOriginalExtension());
-            $image_resize = Image::make($file->getRealPath());
-            $file->move(public_path().'/properties/'.$path, $fileName);
-            $collect->push($url.'/properties/'.$path.'/'.$fileName);
-            if ($isImage) {
-                $image_resize->resize(150, 150);
-                $image_resize->save(public_path('/properties/'
-                    .$path.'/'.$fileName150x150));
-                $image_resize->resize(410, 270);
-                $image_resize->save(public_path('/properties/'
-                    .$path.'/'.$fileName410x270));
-            }
-        }
-        return $collect->all();
-    }
+
     public function update_property_step2(Request $request, $property)
     {
 
@@ -347,13 +322,13 @@ class PropertyController extends Controller
 
     public function update_property_step3(Request $request, $property)
     {
-
+        $property = Property::orderBy('id', 'DESC')->first();
         $request->validate([
             'contact_name' => ['required', 'string'],
             'contact_phone_number' => ['required', 'string'],
         ]);
 
-        DB::table('re_properties')->update([
+        DB::table('re_properties')->where('id', $property->id)->update([
             'contact_name' => $request->input('contact_name'),
             'contact_phone_number' => $request->input('contact_phone_number'),
             'advertising_type' => $request->input('advertising_type'),
@@ -390,7 +365,11 @@ class PropertyController extends Controller
         $languages = DB::table('languages')->get();
 
         $package = DB::table('re_packages')->where('id', request()->segment(6))->first();
-        DB::table('re_properties')->where('id', request()->segment(5))->update([
+
+//        DB::table('re_properties')->where('id', request()->segment(5))->update([
+//            'package' => request()->segment(6),
+//        ]);
+        DB::table('re_properties')->where('id', $property->id)->update([
             'package' => request()->segment(6),
         ]);
 
@@ -450,26 +429,53 @@ class PropertyController extends Controller
     public function store_image(Request $request)
     {
 //        $images = array();
-        $date = now()->format('F').now()->format('Y');
+        $date = now()->format('F') . now()->format('Y');
 
         if ($files = $request->file('images')) {
-            foreach($files as $file) {
+            foreach ($files as $file) {
 //                $images[] = $file->store('image', 'public');
                 $name = rand() . '.' . $file->getClientOriginalExtension();
 //                $file->move('storage/property/'.$date.'/', $name);
                 $file->store('image', 'public');
-                $images[] = 'property/'.$date.'/'.$name;
+                $images[] = 'property/' . $date . '/' . $name;
 
             }
 
         }
-        dd($images);
+
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
-        DB::table('re_properties')->where('id',$property->id)->update([
+        DB::table('re_properties')->where('id', $property->id)->update([
             'images' => $images,
         ]);
-        dd($property);
+
         return $property;
+    }
+
+    private function saveFile($files, $path = 'files', $isImage = false)
+    {
+        $collect = collect();
+        $url = URL::to('/');
+        foreach ($files as $file) {
+            $fileName = time() . rand(0, 1000);
+            $fileName150x150 = $fileName . '-150x150.'
+                . $file->getClientOriginalExtension();
+            $fileName410x270 = $fileName . '-410x270.'
+                . $file->getClientOriginalExtension();
+            $fileName = $fileName . '.'
+                . Str::lower($file->getClientOriginalExtension());
+            $image_resize = Image::make($file->getRealPath());
+            $file->move(public_path() . '/properties/' . $path, $fileName);
+            $collect->push($url . '/properties/' . $path . '/' . $fileName);
+            if ($isImage) {
+                $image_resize->resize(150, 150);
+                $image_resize->save(public_path('/properties/'
+                    . $path . '/' . $fileName150x150));
+                $image_resize->resize(410, 270);
+                $image_resize->save(public_path('/properties/'
+                    . $path . '/' . $fileName410x270));
+            }
+        }
+        return $collect->all();
     }
 }

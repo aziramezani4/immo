@@ -32,7 +32,7 @@
                             href="{{route('create_peoperty')}}"
                             class="nav-link"
                         >
-                            Proceed to advertise
+                           {{__('Proceed to advertise')}}
                         </a>
                     </li>
                 </ul>
@@ -40,7 +40,7 @@
             <ul data-v-6dde423b="" class="navbar-nav ms-auto">
                 <li data-v-6dde423b="" class="nav-item">
                     <a data-v-6dde423b="" href="{{route('home')}}" class="nav-link">
-                        Home Page
+                        {{__('home page')}}
                     </a>
                 </li>
                 <li data-v-6dde423b="" class="nav-item">
@@ -49,7 +49,7 @@
                         href="{{route('profile')}}"
                         class="nav-link"
                     >
-                        Settings
+                        {{__('settings')}}
                     </a>
                 </li>
                 <li data-v-6dde423b="" class="nav-item">
@@ -58,7 +58,7 @@
                         href="{{route('myPropertiess')}}"
                         class="nav-link"
                     >
-                        My Properties
+                        {{__('my-properties')}}
                     </a>
                 </li>
                 <li data-v-6dde423b="" class="nav-item dropdown">
@@ -77,7 +77,7 @@
                         <img
                             data-v-6dde423b=""
                             src="https://www.gravatar.com/avatar/b03b8002148aaa0a74094f244966f863.jpg?s=200&amp;d=mp"
-                            tag="Javad Salehnia"
+                            tag=""
                             class="rounded-circle profile-photo me-1"
                         /></a>
                     <div data-v-6dde423b="" class="dropdown-menu">

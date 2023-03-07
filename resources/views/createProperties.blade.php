@@ -37,19 +37,19 @@
                     <div
                         class="col-xs-12 col-sm-8 col-lg-7 col-xl-6 p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg"
                     >
-                        <h4 class="fw-bold">Create your Ads</h4>
+                        <h4 class="fw-bold">{{__('Create your Ads')}}</h4>
                         <br />
                         <div
                             class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3"
                         >
-                            <form class="form-horizontal" method="post" action="{{route('second_step')}}">
+                            <form class="form-horizontal  mx-auto w-100" method="post" action="{{route('second_step')}}">
                                 @csrf
                                 <div class="row col-md-12 my-2">
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold w-100"
                                         >{{__('property')}}
 
-                                            <select class="form-control" id="exampleFormControlSelect1" name="type">
+                                            <select style="padding:0.3rem; width: 100%" class="form-control mt-1 vs__dropdown-toggle" id="exampleFormControlSelect1" name="type">
                                                 <option value="rent">{{__('rent')}}</option>
                                                 <option value="sale">{{__('sale')}}</option>
                                             </select>
@@ -61,20 +61,23 @@
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold w-100"
                                         >{{__('category')}}
-                                            <select class="form-control @error('category_id') is-invalid @enderror" id="category_id" name="category_id">
+                                            <select style="padding:0.3rem; width: 100%" class="form-control mt-1 vs__dropdown-toggle" @error('category_id') is-invalid @enderror" id="category_id" name="category_id">
                                                 <option value="0"></option>
+
+                                            @if(request()->segment(1) != 'de')
                                                 @if($categories)
                                                     @foreach($categories as $category)
                                                         <option value={{$category -> re_categories_id}} >{{$category -> name}} </option>
                                                     @endforeach
 
                                                 @endif
+                                            @else
                                                 @if($categoriess)
                                                     @foreach($categoriess as $category)
                                                         <option value={{$category -> id}} >{{$category -> name}} </option>
                                                     @endforeach
                                                 @endif
-
+                                                    @endif
                                             </select>
                                         </label>
                                         <!---->
@@ -93,11 +96,11 @@
                                         </label>
                                         <!---->
                                     </div>
-                                    <div class="col-md-6">
+                                    <div id="stateSelect" style="display: none;" class="col-md-6">
                                         <label type="hidden" class="form-label fw-bold w-100"
                                         >State
 
-                                            <select class="form-control @error('state_id') is-invalid @enderror" id="state-dd" name="state_id">
+                                            <select style="padding:0.3rem; width: 100%;" class="form-control mt-1 vs__dropdown-toggle" @error('state_id') is-invalid @enderror" id="state-dd" name="state_id">
                                             </select>
                                             <input class="vs__search"
                                             /></label>
@@ -105,11 +108,11 @@
                                     </div>
                                 </div>
                                 <div class="row col-md-12 my-2">
-                                    <div class="col-md-6">
+                                    <div id="citySelect" style="display: none" class="col-md-6">
                                         <label class="form-label fw-bold w-100"
                                         >{{__('post code, place, canton')}}
                                             <div class="form-group ">
-                                                <select id="city-dd" name="city_id" class="form-control @error('city_id') is-invalid @enderror">
+                                                <select id="city-dd" name="city_id" style="padding:0.3rem; width: 100%;" class="form-control mt-1 vs__dropdown-toggle" @error('city_id') is-invalid @enderror">
                                                 </select>
                                             </div>
                                         </label>
@@ -117,13 +120,13 @@
                                     </div>
                                     <div no-body="" class="mb-1 w-100">
                                         <label for="exampleFormControlSelect1">{{__('location')}}(optional)</label>
-                                        <input class="form-control" name="location" type="text"  placeholder="Default input">
+                                        <input style="padding:0.3rem; width: 100%" class="form-control mt-1 vs__dropdown-toggle" name="location" type="text"  placeholder="">
                                     </div>
                                 </div>
                                 <button
                                     type="submit"
-                                    class="btn btn btn-primary px-4 my-3 me-md-2 btn-primary"
-                                    style="background: rgb(0, 0, 55); float: right"
+                                    class="btn btn-primary px-4 my-3 me-md-2 btn-primary"
+                                    style="background: rgb(0, 0, 55); float: right;transform: translateX(-12%);"
                                 >
                                     {{__('continue')}}
                                 </button>
@@ -139,6 +142,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script>
+
+
+    var countrySelect = document.getElementById('country-dd')
+
+    var stateInput = document.getElementById('stateSelect');
+    var postInput = document.getElementById('citySelect');
+
+
+    countrySelect.addEventListener('change', () =>{
+        if(countrySelect.value == 4){
+            stateInput.style.display = "block";
+            postInput.style.display = "block";
+        }
+        else{
+            stateInput.style.display = "none";
+            postInput.style.display = "none";
+        }
+    })
+
+
+
     $(document).ready(function () {
         $('#country-dd').on('change', function () {
             var idCountry = this.value;
