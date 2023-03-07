@@ -22,124 +22,7 @@
       ></div>
       <div>
         <main role="main" class="main-layout">
-          <nav
-            data-v-6dde423b=""
-            class="navbar navbar-expand-lg navbar-light bg-white"
-          >
-            <div data-v-6dde423b="" class="container">
-              <a
-                data-v-6dde423b=""
-                href="/"
-                class="navbar-brand router-link-active"
-                ><img
-                  data-v-6dde423b=""
-                  src="/assets/images/immoall-logo.png"
-                  height="30"
-                  class=""
-              /></a>
-              <button
-                data-v-6dde423b=""
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbar"
-                class="navbar-toggler"
-              >
-                <span data-v-6dde423b="" class="navbar-toggler-icon"></span>
-              </button>
-              <div
-                data-v-6dde423b=""
-                id="navbar"
-                class="collapse navbar-collapse"
-              >
-                <div data-v-6dde423b="">
-                  <ul data-v-6dde423b="" class="navbar-nav">
-                    <!---->
-                  </ul>
-                </div>
-                <ul data-v-6dde423b="" class="navbar-nav ms-auto">
-                  <li data-v-6dde423b="" class="nav-item">
-                    <a data-v-6dde423b="" href="/" class="nav-link">
-                      Home Page
-                    </a>
-                  </li>
-                  <li data-v-6dde423b="" class="nav-item">
-                    <a data-v-6dde423b="" href="/login" class="nav-link">
-                      Log In
-                    </a>
-                  </li>
-                  <li data-v-6dde423b="" class="nav-item">
-                    <a
-                      data-v-6dde423b=""
-                      href="/register"
-                      class="nav-link router-link-exact-active active"
-                      aria-current="page"
-                    >
-                      Register
-                    </a>
-                  </li>
-                  <li data-v-6dde423b="" class="nav-item dropdown">
-                    <a
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      class="nav-link dropdown-toggle"
-                      ><img
-                        src="/assets/images/flags/en.svg"
-                        alt="flag"
-                        width="20"
-                        height="20"
-                        class="me-1"
-                    /></a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a href="#" class="dropdown-item"
-                        ><img
-                          src="/assets/images/flags/de.svg"
-                          alt="flag"
-                          width="20"
-                          height="20"
-                        />
-                        Deutsch </a
-                      ><a href="#" class="dropdown-item"
-                        ><img
-                          src="/assets/images/flags/es.svg"
-                          alt="flag"
-                          width="20"
-                          height="20"
-                        />
-                        Español </a
-                      ><a href="#" class="dropdown-item"
-                        ><img
-                          src="/assets/images/flags/fr.svg"
-                          alt="flag"
-                          width="20"
-                          height="20"
-                        />
-                        Français </a
-                      ><a href="#" class="dropdown-item"
-                        ><img
-                          src="/assets/images/flags/it.svg"
-                          alt="flag"
-                          width="20"
-                          height="20"
-                        />
-                        Italiano </a
-                      ><a href="#" class="dropdown-item"
-                        ><img
-                          src="/assets/images/flags/en.svg"
-                          alt="flag"
-                          width="20"
-                          height="20"
-                        />
-                        English
-                      </a>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
+          @include('layout.navbar')
           <div class="container-lg mt-4">
             <div
               class="d-flex justify-content-center align-items-center align-content-center mb-5"
@@ -154,7 +37,7 @@
                       height="72"
                       class="mb-4"
                     />
-                    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+                    <h1 class="h3 mb-3 font-weight-normal">{{__('register')}}</h1>
                   </div>
                   <form>
                     <div class="mb-3 row">
@@ -167,7 +50,7 @@
                           type="button"
                           class="btn btn-outline-dark w-100 mb-1"
                         >
-                          Login with
+                          {{__('login_with')}}
                           <svg
                             aria-hidden="true"
                             focusable="false"
@@ -202,7 +85,7 @@
                     </div>
                     <div class="mb-3 row">
                       <label class="col-md-3 col-form-label text-md-end"
-                        >First Name</label
+                        >{{__('first_name')}}</label
                       >
                       <div class="col-md-7">
                         <input
@@ -215,7 +98,7 @@
                     </div>
                     <div class="mb-3 row">
                       <label class="col-md-3 col-form-label text-md-end"
-                        >Last Name</label
+                        >{{__('last_name')}}</label
                       >
                       <div class="col-md-7">
                         <input
@@ -228,7 +111,7 @@
                     </div>
                     <div class="mb-3 row">
                       <label class="col-md-3 col-form-label text-md-end"
-                        >Phone</label
+                        >{{__('phone')}}</label
                       >
                       <div class="col-md-7">
                         <input type="tel" name="phone" class="form-control" />
@@ -237,7 +120,7 @@
                     </div>
                     <div class="mb-3 row">
                       <label class="col-md-3 col-form-label text-md-end"
-                        >Email</label
+                        >{{__('email')}}</label
                       >
                       <div class="col-md-7">
                         <input type="email" name="email" class="form-control" />
@@ -246,7 +129,7 @@
                     </div>
                     <div class="mb-3 row">
                       <label class="col-md-3 col-form-label text-md-end"
-                        >Password</label
+                        >{{__('password')}}</label
                       >
                       <div class="col-md-7">
                         <input
@@ -259,7 +142,7 @@
                     </div>
                     <div class="mb-3 row">
                       <label class="col-md-3 col-form-label text-md-end"
-                        >Confirm Password</label
+                        >{{__('confirm_password')}}</label
                       >
                       <div class="col-md-7">
                         <input
@@ -276,22 +159,22 @@
                           type="submit"
                           class="btn btn btn-primary btn-block w-100 btn-primary"
                         >
-                          Register
+                         {{__('register')}}
                         </button>
                       </div>
                     </div>
                     <div class="mb-3 row">
                       <div class="col-md-7 offset-md-3">
-                        By clicking Register, I agree that I have read and
-                        accepted the IMMO ALL
+                          {{__('by clicking Register, I agree that I have read and accepted the ImmoAll AGB')}}
+
                         <a href="/" class="small ms-auto router-link-active">
-                          Terms of Use and Privacy Policy
+                            {{__('terms of Use and Privacy Policy')}}
                         </a>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-7 offset-md-3">
-                        Already have login and password?
+                          {{__('already have login and password?')}}
                         <a href="/login" class="small ms-auto"> Sign in </a>
                       </div>
                     </div>

@@ -49,7 +49,7 @@
                     >
                       <div class="col-sm-6 mt-4">
                         <label for="contact_name" class="form-label"
-                          >Contact name<span class="small text-danger m-1"
+                          >{{__('contact_name')}}<span class="small text-danger m-1"
                             >*</span
                           ></label
                         >
@@ -63,11 +63,14 @@
                           class="form-control"
                           style="border-block-color: red"
                         />
+                          @if($errors->has('contact_name'))
+                              <div class="error alert-danger">{{ $errors->first('contact_name') }}</div>
+                      @endif
                         <!---->
                       </div>
                       <div class="col-sm-6 mt-4">
                         <label for="contact_phone_number" class="form-label"
-                          >Contact phone number<span
+                          >{{__('contact_phone_number')}}<span
                             class="small text-danger m-1"
                             >*</span
                           ></label
@@ -82,20 +85,23 @@
                           class="form-control"
                           style="border-block-color: red"
                         />
+                          @if($errors->has('contact_phone_number'))
+                              <div class="error alert-danger">{{ $errors->first('contact_phone_number') }}</div>
+                          @endif
                       </div>
                       <!---->
                     </div>
-                    <h4 class="mb-3 mt-4">Publish</h4>
+                    <h4 class="mb-3 mt-4">{{__('publish')}}</h4>
                     <div
                       class="d-flex flex-row justify-content-between gap-2 mb-4"
                     >
                       <div class="col-sm-6 mt-4">
                         <label for="status" class="form-label"
-                          >Status<span class="small text-danger m-1"
+                          >{{__('status')}}<span class="small text-danger m-1"
                             >*</span
                           ></label
                         >
-                          <select class="form-control" id="status" name="status">
+                          <select class="form-control  @error('status') is-invalid @enderror" required id="status" name="status">
                               <option value=""></option>
                               <option value="read" name="status">read</option>
                               <option value="unread" name="status">unread</option>
@@ -141,7 +147,7 @@
                         class="btn rounded btn py-2 px-2 col-sm-4 text-lg border bg-dark text-white btn-primary"
                         style="border-radius: 8px !important"
                       >
-                        Next and Choose Package
+                        {{__('Next and Choose Package')}}
                       </button>
                     </div>
                   </div>

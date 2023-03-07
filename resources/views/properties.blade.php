@@ -5,7 +5,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Write a property · IMMO ALL</title>
+    <title>{{__('write a property')}} · IMMO ALL</title>
 
     <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
@@ -33,7 +33,7 @@
                 class="col-xs-12 col-md-8 col-xl-8 col-lg-10 p-4 pb-0 pt-lg-5 align-items-center"
               >
                 <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                  My Properties
+                  {{__('my-properties')}}
                 </h3>
                 <div class="row mb-2">
                     <div class="col-md-12">
@@ -50,9 +50,9 @@
                   </div> <p class="card-text mb-auto">
                                     {{$property->name}}
                   </p> <div><button href="#" class="btn btn-primary">
-                      Edit
+                      {{__('edit')}}
                     </button> <button href="#" class="btn btn-danger">
-                      Delete
+                      {{__('delete')}}
                     </button></div></div></div></div></div>
               </div>
                 @endforeach

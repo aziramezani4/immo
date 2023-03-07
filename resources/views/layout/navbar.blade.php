@@ -71,7 +71,9 @@
                         aria-expanded="false"
                         class="nav-link dropdown-toggle text-dark"
                     >
+                        @auth()
                         {{auth()->user()->first_name}}{{'   '.auth()->user()->last_name}}
+                        @endauth
                         <img
                             data-v-6dde423b=""
                             src="https://www.gravatar.com/avatar/b03b8002148aaa0a74094f244966f863.jpg?s=200&amp;d=mp"
@@ -128,18 +130,22 @@
                         /></a>
                     <div class="dropdown-menu dropdown-menu-end">
 
-                    @foreach($languages as $item)
 
-                            <a href="/{{$item->lang_code}}/{{request()->segment(2)}}" class="dropdown-item"
-                            >
+
+
+                            @foreach(config('app.available_locales') as $locale)
+
+                                <x-nav-link :href="route(\Illuminate\Support\Facades\Route::currentRouteName(), ['locale' => $locale])" :active="app()->getLocale() == $locale">
+                                    {{ strtoupper($locale) }}
+
                             <img
-                                src="/assets/images/flags/{{$item->lang_flag}}.svg"
+                                src="/assets/images/flags/{{ $locale }}.svg"
                                 alt="flag"
                                 width="20"
                                 height="20"
                             />
-                            {{$item->lang_name}}</a
-                        >
+                             </x-nav-link>
+                                <br>
                         @endforeach
 
                     </div>

@@ -92,7 +92,10 @@ class Property extends Model
             'moderation_status' => ModerationStatusEnum::class,
             'type'              => PropertyTypeEnum::class,
             'period'            => PropertyPeriodEnum::class,
+
         ];
+
+
 
     /**
      * @var array
@@ -130,49 +133,49 @@ class Property extends Model
 //            'reference_id')->withPivot('distance', 'reference_type');
 //    }
 //
-//    /**
-//     * @param string $value
-//     *
-//     * @return array
-//     */
-//    public function getImagesAttribute($value)
-//    {
-//        try {
-//            if ($value === '[null]') {
-//                return [];
-//            }
-//
-//            return json_decode($value) ?: [];
-//        } catch (Exception $exception) {
-//            return [];
-//        }
-//    }
-//
-//    /**
-//     * @param string $value
-//     *
-//     * @return array
-//     */
-//    public function getVideosAttribute($value)
-//    {
-//        try {
-//            if ($value === '[null]') {
-//                return [];
-//            }
-//
-//            return json_decode($value) ?: [];
-//        } catch (Exception $exception) {
-//            return [];
-//        }
-//    }
-//
-//    /**
-//     * @return string|null
-//     */
-//    public function getImageAttribute(): ?string
-//    {
-//        return Arr::first($this->images) ?? null;
-//    }
+    /**
+     * @param string $value
+     *
+     * @return array
+     */
+    public function getImagesAttribute($value)
+    {
+        try {
+            if ($value === '[null]') {
+                return [];
+            }
+
+            return json_decode($value) ?: [];
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return array
+     */
+    public function getVideosAttribute($value)
+    {
+        try {
+            if ($value === '[null]') {
+                return [];
+            }
+
+            return json_decode($value) ?: [];
+        } catch (Exception $exception) {
+            return [];
+        }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageAttribute(): ?string
+    {
+        return Arr::first($this->images) ?? null;
+    }
 //
 //    /**
 //     * @return string

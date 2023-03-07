@@ -98,27 +98,27 @@ Route::prefix('{locale}')
 
 
         Route::get('/home', [PropertyController::class, 'home'])
-            ->middleware(['auth'])->name('home');
+            ->middleware(['auth']) ->name('home');
 
 //        Route::get('first/step', [PropertyController::class, 'first_step'])
 //            ->middleware(['auth'])->name('first_step');
 
         Route::get('create/properties', [PropertyController::class, 'create_peoperty'])
-            ->middleware(['auth'])->name('create_peoperty');
+            ->name('create_peoperty');
 
         Route::post('second/step', [PropertyController::class, 'store'])
             ->middleware(['auth'])->name('second_step');
 
         Route::get('second/step', [PropertyController::class, 'show'])
-            ->name('second_step1');
+            ->middleware(['auth'])->name('second_step1');
 
 
-        Route::post('update/properties/step1/{property}',
+        Route::put('update/properties/step1/{property?}',
             [PropertyController::class,
                 'update_property_step1'])->middleware(['auth'])->name('update.property.step1');
 
 
-        Route::get('update/properties/step1/{property}',
+        Route::get('update/properties/step1/{property?}',
             [PropertyController::class, 'step2'])
             ->name('step2');
 
@@ -130,30 +130,31 @@ Route::prefix('{locale}')
 
         require __DIR__ . '/auth.php';
 
-        Route::post('update/feature/facility/{property}', [PropertyController::class, 'update_feature_facility'])->name('update.feature.facility');
+        Route::post('update/feature/facility/{property?}', [PropertyController::class, 'update_feature_facility'])->name('update.feature.facility');
 
-        Route::post('update/properties/step2/{property}', [PropertyController::class, 'update_property_step2'])->name('update.property.step2');
+        Route::post('update/properties/step2/{property?}', [PropertyController::class, 'update_property_step2'])->name('update.property.step2');
         Route::post('store/facility', [PropertyController::class, 'store_facility'])->name('store.facility');
+        Route::post('store/images', [PropertyController::class, 'store_image'])->name('store.image');
 
-        Route::get('update/properties/step3/{property}',
+        Route::get('update/properties/step3/{property?}',
             [PropertyController::class, 'step3'])
             ->name('step3');
-        Route::post('update/properties/step3/{property}', [PropertyController::class, 'update_property_step3'])->name('update.property.step3');
+        Route::post('update/properties/step3/{property?}', [PropertyController::class, 'update_property_step3'])->name('update.property.step3');
 
-        Route::get('update/properties/step4/{property}',
+        Route::get('update/properties/step4/{property?}',
             [PropertyController::class, 'step4'])
             ->name('step4');
 
-        Route::post('update/properties/step4/{property}', [PropertyController::class, 'update_property_step4'])->name('update.property.step4');
+        Route::post('update/properties/step4/{property?}', [PropertyController::class, 'update_property_step4'])->name('update.property.step4');
 
-        Route::get('update/properties/step5/{property}/{package}', [PropertyController::class, 'show_package'])
+        Route::get('update/properties/step5/{property?}/{package?}', [PropertyController::class, 'show_package'])
             ->name('show.package');
 
-        Route::get('publish/properties/{property}',
+        Route::get('publish/properties/{property?}',
             [PropertyController::class, 'publish'])
             ->name('publish');
 
-        Route::get('my/properties/{property}',
+        Route::get('my/properties/{property?}',
             [PropertyController::class, 'properties'])
             ->name('my.properties');
 

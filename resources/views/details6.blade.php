@@ -6,7 +6,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
-    <title>Write a property · IMMO ALL</title>
+    <title>{{__('write a property')}} · IMMO ALL</title>
 
     <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
@@ -34,15 +34,16 @@
                       <use xlink:href="#collection"></use>
                     </svg>
                   </div>
-                  <h2>Thank you for the ad!</h2>
+                  <h2>{{__('Thank you for the ad!')}}</h2>
                   <p>
-                    Your entry will be checked within 48 hours and activated
-                    with the next data release.During this time, you cannot edit
-                    your listing.
+                    {{__('Your entry will be checked within 48
+                           hours and activated with the next data
+                            release.During this time, you cannot edit
+                             your listing.')}}
                   </p>
-                  <p>Your property reference:<b>cqfhz.06rx.dc.56.68296</b></p>
+                  <p>{{__('Your property reference:')}}<b>cqfhz.06rx.dc.56.68296</b></p>
                     <a href="{{route('my.properties',$property)}}" class="nav-link">
-                    Continue to my Advertisements
+                    {{__('Continue to my advertisements')}}
                   </a>
                 </div>
               </div>

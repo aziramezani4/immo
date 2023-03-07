@@ -5,7 +5,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Home · IMMO ALL</title>
+    <title>{{__('home')}} · IMMO ALL</title>
     <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
   <body>
@@ -30,7 +30,7 @@
               <div class="col-lg-10 m-auto">
                 <div class="col-md-12"><!----></div>
                 <div class="card">
-                  <div class="card-header">Home</div>
+                  <div class="card-header">{{__('home')}}</div>
                   <div class="card-body">
                     <div>
                       <a

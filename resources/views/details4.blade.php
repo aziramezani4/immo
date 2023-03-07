@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Write a property · IMMO ALL</title>
+    <title>{{__('write a property')}} · IMMO ALL</title>
 
     <link rel="stylesheet" href="/assets/css/styles.css" />
   </head>
@@ -27,7 +27,7 @@
         @include('layout.navbar')
           <div class="container-lg mt-4">
             <div>
-              <h4 class="mb-3">Select your service package</h4>
+              <h4 class="mb-3">{{__('Select your service package')}}</h4>
                 <form enctype="multipart/form-data" class="w-100" method="POST"
                       action="{{ route('update.property.step4',$property) }}">
                     @csrf
@@ -51,7 +51,7 @@
                                             class="btn w-100 btn btn-lg btn-button btn-outline-primary"
                                         >
                                             <a href="{{route('show.package',[$property,$package->id])}}" >
-                                                Continue
+                                                {{__('continue')}}
                                             </a>
 
                                         </button>
