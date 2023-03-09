@@ -9,6 +9,11 @@
     <title>Write a property · IMMO ALL</title>
 
     <link rel="stylesheet" href="/assets/css/styles.css"/>
+
+    <!-- Style Upload here -->
+    <style>
+
+    </style>
 </head>
 <body>
 
@@ -158,13 +163,12 @@
 
                                 <input
                                     data-v-4f3efaec=""
-                                    id="attachments"
                                     type="file"
-                                    multiple="multiple"
-                                    accept=".jpeg,.png,.mp4,.pdf,.jpg"
-                                    hidden="hidden"
-                                    data-max_length="7"
+                                    id="attachments"
                                     name="images[]"
+                                    hidden="hidden"
+                                    accept=".jpeg, .png, .mp4, .pdf,  .jpg"
+                                    multiple
                                 />
                                 Drop files here or click to upload.
                             </div>

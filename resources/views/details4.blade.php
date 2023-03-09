@@ -28,9 +28,7 @@
           <div class="container-lg mt-4">
             <div>
               <h4 class="mb-3">{{__('Select your service package')}}</h4>
-                <form enctype="multipart/form-data" class="w-100" method="POST"
-                      action="{{ route('update.property.step4',$property) }}">
-                    @csrf
+
                 <div
                     class="row d-flex align-items-center align-content-center justify-content-center my-5"
                 >
@@ -71,7 +69,7 @@
                         @endforeach
                     </div>
                 </div>
-                </form>
+
             </div>
           </div>
         </main>

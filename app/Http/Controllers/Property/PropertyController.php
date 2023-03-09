@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Property;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Property\StorePropertyRequest;
 use App\Http\Requests\Property\UpdatePropertystep1Request;
+use App\Models\Media\MediaFile;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class PropertyController extends Controller
 {
@@ -61,15 +65,17 @@ class PropertyController extends Controller
             'property_id' => $property->id,
             'category_id' => $request->input('category_id'),
         ]);
-        return redirect()->route('second_step1');
+$type = $property->type;
+        return redirect()->route('second_step1',['type'=>$type]);
     }
 
     public function show()
     {
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
         $languages = DB::table('languages')->get();
+        $type = $property->type;
 
-        return view('details', ['property' => $property->id, 'languages' => $languages]);
+        return view('details', ['property' => $property->id, 'languages' => $languages,'type'=>$type]);
     }
 
     public function update_property_step1(UpdatePropertystep1Request $request, $property)
@@ -165,9 +171,7 @@ class PropertyController extends Controller
 
     public function update_feature_facility(Request $request, $property)
     {
-        $request->validate([
-            'distance' => ['required'],
-        ]);
+
         $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
         if (request()->segment(1) == 'en') {
@@ -228,7 +232,7 @@ class PropertyController extends Controller
 //        $property->facilities()->attach($request->get('facilities', []));
         $facility_exists = !$request->get('facilities', []);
 
-        if (!$facility_exists) {
+        if ($facility_exists !== false) {
             foreach ($request->get('facilities', []) as $item) {
                 $facility = DB::table('re_facilities_translations')->where('re_facilities_id', $item)->first();
                 DB::table('re_facilities_distances')->insert([
@@ -245,29 +249,24 @@ class PropertyController extends Controller
 
         $image_exists = $request->file('images');
 
-        if ($image_exists == Null) {
-            foreach ($request->file('images') as $image) {
+        if ($image_exists !== Null) {
 
-                $image->store('image', 'public');
-
-            }
-
-            //        $images = array();
-            $date = now()->format('F') . now()->format('Y');
-
-            if ($files = $request->file('images')) {
-                foreach ($files as $file) {
-                    $name = rand() . '.' . $file->getClientOriginalExtension();
-                    $file->store('image', 'public');
-                    $images[] = 'property/' . $date . '/' . $name;
+            $files = [];
+            if($request->hasfile('images'))
+            {
+                foreach($request->file('images') as $file)
+                {
+                    $name = time().rand(1,100).'.'.$file->extension();
+                    $file->move(public_path('files'), $name);
+                    $files[] = $name;
                 }
-
             }
-            $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
 
-            DB::table('re_properties')->where('id', $property->id)->update([
-                'images' => $images,
-            ]);
+                            DB::table('re_properties')->where('id', $property->id)->update([
+                    'images' => $files,
+                ]);
+
+
         } else {
 
         }
@@ -410,7 +409,26 @@ class PropertyController extends Controller
 //                'company' => $request->company ?? $account->company,
             'dob' => $request->dob ?? $account->dob,
         ]);
+        $user = $request->user();
 
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ]);
+        $name = $request->file('avatar')->getClientOriginalName();
+        $file = Storage::disk('avatar')->put('', $request->file('avatar'));
+
+        $save = new MediaFile();
+        $save->user_id = $user->id;
+        $save->name = $name;
+        $save->folder_id = 0;
+        $save->mime_type = $request->file('avatar')->getMimeType();
+        $save->size = $request->file('avatar')->getSize();
+        $save->url = Storage::disk('avatar')->url($file);
+        $save->options = '[]';
+        $save->save();
+
+        $user->avatar_id = $save->id;
+        $user->save();
         return redirect()->back();
     }
 
@@ -429,30 +447,18 @@ class PropertyController extends Controller
         return redirect()->back();
     }
 
-    public function store_image(Request $request)
+    protected function validateFiles(Request $request)
     {
-//        $images = array();
-        $date = now()->format('F') . now()->format('Y');
+        $request->validate([
+            'pFiles.*'  => 'mimetypes:application/pdf|max:8192',
+            'pImages.*' => 'max:50192|mimes:jpeg,jpg,png',
+            'pVideos.*' => 'mimetypes:video/mp4|max:81920',
 
-        if ($files = $request->file('images')) {
-            foreach ($files as $file) {
-//                $images[] = $file->store('image', 'public');
-                $name = rand() . '.' . $file->getClientOriginalExtension();
-//                $file->move('storage/property/'.$date.'/', $name);
-                $file->store('image', 'public');
-                $images[] = 'property/' . $date . '/' . $name;
-
-            }
-
-        }
-
-        $property = DB::table('re_properties')->orderBy('id', 'DESC')->first();
-
-        DB::table('re_properties')->where('id', $property->id)->update([
-            'images' => $images,
+        ], [], [
+            'pFiles.*'  => trans('validation.pdfs'),
+            'pImages.*' => trans('validation.photos'),
+            'pVideos.*' => trans('validation.videos'),
         ]);
-
-        return $property;
     }
 
     private function saveFile($files, $path = 'files', $isImage = false)
@@ -460,23 +466,23 @@ class PropertyController extends Controller
         $collect = collect();
         $url = URL::to('/');
         foreach ($files as $file) {
-            $fileName = time() . rand(0, 1000);
-            $fileName150x150 = $fileName . '-150x150.'
-                . $file->getClientOriginalExtension();
-            $fileName410x270 = $fileName . '-410x270.'
-                . $file->getClientOriginalExtension();
-            $fileName = $fileName . '.'
-                . Str::lower($file->getClientOriginalExtension());
+            $fileName = time().rand(0, 1000);
+            $fileName150x150 = $fileName.'-150x150.'
+                .$file->getClientOriginalExtension();
+            $fileName410x270 = $fileName.'-410x270.'
+                .$file->getClientOriginalExtension();
+            $fileName = $fileName.'.'
+                .Str::lower($file->getClientOriginalExtension());
             $image_resize = Image::make($file->getRealPath());
-            $file->move(public_path() . '/properties/' . $path, $fileName);
-            $collect->push($url . '/properties/' . $path . '/' . $fileName);
+            $file->move(public_path().'/properties/'.$path, $fileName);
+            $collect->push($url.'/properties/'.$path.'/'.$fileName);
             if ($isImage) {
                 $image_resize->resize(150, 150);
                 $image_resize->save(public_path('/properties/'
-                    . $path . '/' . $fileName150x150));
+                    .$path.'/'.$fileName150x150));
                 $image_resize->resize(410, 270);
                 $image_resize->save(public_path('/properties/'
-                    . $path . '/' . $fileName410x270));
+                    .$path.'/'.$fileName410x270));
             }
         }
         return $collect->all();

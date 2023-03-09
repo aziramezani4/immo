@@ -42,7 +42,7 @@
 {{--                            @endif--}}
                 @if (Route::has('login'))
                                                     @auth
-                <li class="nav-item"><a class="nav-link" href="{{ route('dashboard', app()->getLocale()) }}">{{__('Dashboard')}}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('home', app()->getLocale()) }}">{{__('Dashboard')}}</a></li>
                     @else
                 <li class="nav-item"><a class="nav-link" href="{{ route('login', app()->getLocale()) }}">{{__('login')}}</a></li>
                                                 @if (Route::has('register'))
@@ -71,11 +71,7 @@
         </div>
     </div>
 </header>
-
-<!-- Footer-->
-<footer class="bg-light py-5">
-    <div class="container px-4 px-lg-5"><div class="small text-center text-muted">Copyright &copy; 2022 - Company Name</div></div>
-</footer>
+@include('layout.footer')
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- SimpleLightbox plugin JS-->

@@ -35,8 +35,8 @@ class UpdatePropertystep1Request extends FormRequest
             'last_reconstruction'=>['nullable', 'string'],
             'last_renovation'=>['nullable', 'string'],
             'available_date'=>['nullable', 'string'],
-            'price'=>['required', 'string'],
-            'currency_id'=>['required', 'string'],
+            'price'=>['nullable', 'string'],
+            'currency_id'=>['nullable', 'string'],
         ];
     }
 }

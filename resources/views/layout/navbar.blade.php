@@ -122,7 +122,7 @@
                         aria-expanded="false"
                         class="nav-link dropdown-toggle"
                     ><img
-                            src="/assets/images/flags/us.svg"
+                            src="/assets/images/flags/{{ request()->segment(1) }}.svg"
                             alt="flag"
                             width="20"
                             height="20"
