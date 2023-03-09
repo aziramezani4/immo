@@ -34,7 +34,7 @@ Route::post('api/fetch-states', [PropertyController::class, 'fetchState']);
 Route::post('api/fetch-cities', [PropertyController::class, 'fetchCity']);
 
 Route::get('/google-login', [GoogleAuthController::class,'redirectToProvider']);
-Route::get('/callback', 'GoogleAuthController@handleProviderCallback');
+Route::get('/callback', [GoogleAuthController::class,'handleProviderCallback']);
 
 Route::get('/login/github', [AuthenticatedSessionController::class, 'github'])->name('login.github');
 Route::get('/callback/github', [AuthenticatedSessionController::class, 'callbackGithub'])->name('callback.github');
@@ -87,6 +87,8 @@ Route::prefix('{locale}')
         Route::post('/profile',[PropertyController::class,'update_profile'])
             ->middleware(['auth'])->name('update.profile');
 
+
+        Route::post('upload/avatar',[ProfileController::class,'uploadAvatar'])->name('upload_avatar');
 
         Route::get('/password', function () {
             $languages = DB::table('languages')->get();

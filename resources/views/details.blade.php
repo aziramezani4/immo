@@ -22,6 +22,7 @@
           background-color: rgb(119, 182, 255);
         "
       ></div>
+
       <div>
         <main role="main" class="main-layout">
          @include('layout.navbar')
@@ -145,7 +146,7 @@
                               <label
                                 for="square_construction	"
                                 class="form-label"
-                                >{{__('square')}}<span
+                                >{{__('square construction')}}<span
                                   class="small text-danger m-1"
                                   >*</span
                                 ></label
@@ -262,7 +263,7 @@
                               <label for="construction_year" class="form-label"
                                 >{{__('construction_year')}}<span
                                   class="small text-danger m-1"
-                                  >*</span
+                                  ></span
                                 ></label
                               >
                               <input
@@ -337,7 +338,6 @@
                                 spellcheck="false"
                                 data-ms-editor="true"
                                 class="form-control"
-                                required
                               />
                                 @if($errors->has('available_date'))
                                     <div class="error alert-danger">{{ $errors->first('available_date') }}</div>
@@ -353,16 +353,67 @@
                             accordion="my-accordion"
                             role="tabpanel"
                           >
+                              <br>
+
                             <h4 class="mb-3">{{__('Costs')}}</h4>
+                              <br>
+
+                              @if($type == 'rent')
+                              <div class="d-flex flex-row gap-3">
+
+                                  <div class="col-sm-6">
+                                      <label for="available_date" class="form-label"
+                                      >{{__('net_rent')}}</label
+                                      >
+                                      <input
+                                          id="available_date"
+                                          type="text"
+                                          name="available_date"
+                                          placeholder=""
+                                          spellcheck="false"
+                                          data-ms-editor="true"
+                                          class="form-control"
+
+                                      />
+                                      @if($errors->has('net_rent'))
+                                          <div class="error alert-danger">{{ $errors->first('net_rent') }}</div>
+                                  @endif
+                                  <!---->
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <label for="additional_costs" class="form-label"
+                                      >{{__('additional_costs')}}</label
+                                      >
+                                      <input
+                                          id="additional_costs"
+                                          type="number"
+
+                                          name="additional_costs"
+                                          placeholder=""
+                                          spellcheck="false"
+                                          data-ms-editor="true"
+                                          class="form-control"
+                                      />
+                                      @if($errors->has('additional_costs'))
+                                          <div class="error alert-danger">{{ $errors->first('additional_costs') }}</div>
+                                  @endif
+                                  <!---->
+                                  </div>
+                              </div>
+
+                              <br>
+                              @else
                             <div
                               class="d-flex w-100 flex-row gap-2 px-3 border-0"
                             >
+
                               <!---->
                               <!---->
                               <div class="col-sm-3">
                                 <!---->
                                 <!---->
                                 <div class="d-flex flex-row gap-3">
+                                    @if($type == 'sale')
                                   <div class="col-sm-6">
                                     <label for="price" class="form-label"
                                       >{{__('Price')}}<span class="small text-danger m-1"
@@ -377,34 +428,38 @@
                                       spellcheck="false"
                                       data-ms-editor="true"
                                       class="form-control"
-                                      required
+
                                     />
                                       @if($errors->has('price'))
                                           <div class="error alert-danger">{{ $errors->first('price') }}</div>
                                   @endif
                                     <!---->
                                   </div>
-                                  <div class="col-sm-2">
-                                    <label for="currency" class="form-label"
-                                      >currency<span
-                                        class="small text-danger m-1"
-                                        >*</span
+
+                                    @endif
+
+                                </div>
+                              </div>
+                            </div>
+                              @endif
+                              <div class="col-sm-2">
+                                  <label for="currency" class="form-label"
+                                  >{{__('currency')}}<span
+                                          class="small text-danger m-1"
+                                      >*</span
                                       ></label
-                                    >
-                                    <select
+                                  >
+                                  <select
                                       name="currency_id"
                                       class="form-control select"
-                                    >
+                                  >
                                       <option selected="selected" value="1">
                                           CHF
                                       </option>
                                       <option value="2">€ EUR</option>
                                       <option value="3">$ USD</option>
-                                    </select>
-                                  </div>
-                                </div>
+                                  </select>
                               </div>
-                            </div>
                             <div
                               class="d-flex flex-row justify-content-end gap-3 m-2 mt-3"
                             >

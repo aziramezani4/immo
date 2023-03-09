@@ -92,10 +92,13 @@ class Property extends Model
             'moderation_status' => ModerationStatusEnum::class,
             'type'              => PropertyTypeEnum::class,
             'period'            => PropertyPeriodEnum::class,
-
+//            'images' => 'array',
         ];
 
-
+    public function setFilenamesAttribute($value)
+    {
+        $this->attributes['images'] = json_encode($value);
+    }
 
     /**
      * @var array

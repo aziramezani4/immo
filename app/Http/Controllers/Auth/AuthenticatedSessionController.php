@@ -33,7 +33,8 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
 //        return redirect()->intended(RouteServiceProvider::HOME);
-        return redirect()->intended(app()->getLocale().RouteServiceProvider::HOME);
+//        return redirect()->intended(app()->getLocale().RouteServiceProvider::HOME);
+        return redirect()->route('home');
     }
 
     /**
@@ -74,4 +75,5 @@ class AuthenticatedSessionController extends Controller
 //      return redirect('/dashboard');
         return \view('welcome');
     }
+
 }

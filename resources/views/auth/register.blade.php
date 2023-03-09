@@ -41,6 +41,7 @@
                         <div class="col-md-7">
 
                             <!-- Content - Login With Google -->
+                            <a href="{{ url('/google-login') }}">
                             <button
                                 type="button"
                                 class="btn btn-outline-dark w-100 mb-1"
@@ -63,6 +64,7 @@
                                     ></path>
                                 </svg>
                             </button>
+                            </a>
                         </div>
                         <label
                             class="col-md-3 col-form-label text-md-end"
